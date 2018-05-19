@@ -2,37 +2,6 @@ import csv
 from datetime import datetime
 
 
-def prova():
-    with open('Dataset\OrdonezA_ADLs.txt', 'r') as in_file:
-        stripped = (line.strip() for line in in_file)
-        lines = (line.split(",") for line in stripped if line)
-        with open('Dataset\OrdonezA_ADLs.csv', 'w') as out_file:
-            writer = csv.writer(out_file)
-            writer.writerow(('title', 'intro'))
-            writer.writerows(lines)
-    with open('Dataset\OrdonezA_Sensors.txt', 'r') as in_file:
-        stripped = (line.strip() for line in in_file)
-        lines = (line.split(",") for line in stripped if line)
-        with open('Dataset\OrdonezA_Sensors.csv', 'w') as out_file:
-            writer = csv.writer(out_file)
-            writer.writerow(('title', 'intro'))
-            writer.writerows(lines)
-    with open('Dataset\OrdonezB_ADLs.txt', 'r') as in_file:
-        stripped = (line.strip() for line in in_file)
-        lines = (line.split(",") for line in stripped if line)
-        with open('Dataset\OrdonezB_ADLs.csv', 'w') as out_file:
-            writer = csv.writer(out_file)
-            writer.writerow(('title', 'intro'))
-            writer.writerows(lines)
-    with open('Dataset\OrdonezB_Sensors.txt', 'r') as in_file:
-        stripped = (line.strip() for line in in_file)
-        lines = (line.split(",") for line in stripped if line)
-        with open('Dataset\OrdonezB_Sensors.csv', 'w') as out_file:
-            writer = csv.writer(out_file)
-            writer.writerow(('title', 'intro'))
-            writer.writerows(lines)
-
-
 def elaborate_dataset(house):
     for path_file in house:
         if ('ADLs' in path_file) or ('Sensors' in path_file):
