@@ -1,5 +1,4 @@
-Start time          	End time            	Activity	
---------------------	--------------------	--------
+Start time		End time		Activity	
 2011-11-28 02:27:59		2011-11-28 10:18:11		Sleeping		
 2011-11-28 10:21:24		2011-11-28 10:23:36		Toileting	
 2011-11-28 10:25:44		2011-11-28 10:33:00		Showering	

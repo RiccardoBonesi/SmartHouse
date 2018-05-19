@@ -1,17 +1,19 @@
 from csv_generator import *
+from probability_calc import *
 
 if __name__ == '__main__':
 
+    obtain_p_adls()
     ordonezA = ['Dataset/OrdonezA', 'Dataset/OrdonezA_Description', 'Dataset/OrdonezA_ADLs', 'Dataset/OrdonezA_Sensors']
     ordonezB = ['Dataset/OrdonezB', 'Dataset/OrdonezB_Description', 'Dataset/OrdonezB_ADLs', 'Dataset/OrdonezB_Sensors']
     dataset = [ordonezA, ordonezB]
 
-    for house in dataset:
-        data = elaborate_dataset(house)
+    # for house in dataset:
+        # data = elaborate_dataset(house)
 
-    house_name = house[0]
-    path_adls = house[2]
-    path_sens = house[3]
+    # house_name = house[0]
+    # path_adls = house[2]
+    # path_sens = house[3]
 
 
 
