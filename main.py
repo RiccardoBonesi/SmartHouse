@@ -3,7 +3,8 @@ from probability_calc import *
 
 if __name__ == '__main__':
 
-    dataset = ['Dataset/OrdonezA_ADLs.txt', 'Dataset/OrdonezB_ADLs.txt']
+    # dataset = ['Dataset/OrdonezA_ADLs.txt', 'Dataset/OrdonezB_ADLs.txt']
+    dataset = 'Dataset/OrdonezA_ADLs.txt'
     startProb = obtain_p_adls(dataset)
     transProb = obtain_t_adls(dataset)  # TODO
 
