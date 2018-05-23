@@ -2,9 +2,9 @@ import numpy
 
 import pandas as pd
 
-def obtain_p_adls():
-    dataset = ['Dataset/OrdonezA_ADLs.txt', 'Dataset/OrdonezB_ADLs.txt']
 
+# calcola le probabilità iniziali
+def obtain_p_adls(dataset):
     activities = []
     dataCount = []
     startProb = []
@@ -18,4 +18,13 @@ def obtain_p_adls():
         norm = [float(i) / s for i in data['Activity'].value_counts()]
         startProb.append(norm)
 
-    print("")
+    print("probabilità iniziali calcolate")
+    return startProb
+
+
+# calcola le probabiltà di transizione
+def obtain_t_adls(dataset):
+
+
+
+    print("probabilità di transizioni calcolate")

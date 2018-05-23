@@ -3,10 +3,14 @@ from probability_calc import *
 
 if __name__ == '__main__':
 
-    obtain_p_adls()
-    ordonezA = ['Dataset/OrdonezA', 'Dataset/OrdonezA_Description', 'Dataset/OrdonezA_ADLs', 'Dataset/OrdonezA_Sensors']
-    ordonezB = ['Dataset/OrdonezB', 'Dataset/OrdonezB_Description', 'Dataset/OrdonezB_ADLs', 'Dataset/OrdonezB_Sensors']
-    dataset = [ordonezA, ordonezB]
+    dataset = ['Dataset/OrdonezA_ADLs.txt', 'Dataset/OrdonezB_ADLs.txt']
+    startProb = obtain_p_adls(dataset)
+    transProb = obtain_t_adls(dataset)  # TODO
+
+
+    # ordonezA = ['Dataset/OrdonezA', 'Dataset/OrdonezA_Description', 'Dataset/OrdonezA_ADLs', 'Dataset/OrdonezA_Sensors']
+    # ordonezB = ['Dataset/OrdonezB', 'Dataset/OrdonezB_Description', 'Dataset/OrdonezB_ADLs', 'Dataset/OrdonezB_Sensors']
+    # dataset = [ordonezA, ordonezB]
 
     # for house in dataset:
         # data = elaborate_dataset(house)
