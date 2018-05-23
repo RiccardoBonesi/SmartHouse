@@ -3,10 +3,11 @@ from probability_calc import *
 
 if __name__ == '__main__':
 
-    # dataset = ['Dataset/OrdonezA_ADLs.txt', 'Dataset/OrdonezB_ADLs.txt']
-    dataset = 'Dataset/OrdonezA_ADLs.txt'
-    startProb = obtain_p_adls(dataset)
-    transProb = obtain_t_adls(dataset)  # TODO
+    datasetList = ['Dataset/OrdonezA_ADLs.txt', 'Dataset/OrdonezB_ADLs.txt']
+    for dataset in datasetList:
+        startProb = obtain_p_adls(dataset)
+        transProb = obtain_t_adls(dataset)
+        print("ciao")
 
 
     # ordonezA = ['Dataset/OrdonezA', 'Dataset/OrdonezA_Description', 'Dataset/OrdonezA_ADLs', 'Dataset/OrdonezA_Sensors']
