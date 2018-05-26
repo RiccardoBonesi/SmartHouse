@@ -30,7 +30,7 @@ def get_trans_prob(dataset):
     qwer = len(data.index)
     activities = data['Activity'].unique().tolist()
     matrix = np.zeros(len(activities))
-    assss = data['Activity'].tolist()
+    #assss = data['Activity'].tolist()
     for state in activities:
         wooo = [i for i, j in enumerate(data['Activity'].tolist()) if j == state]
         nextIndex = [x + 1 for x in wooo]
@@ -47,9 +47,9 @@ def get_trans_prob(dataset):
 
         norm = [float(i) / sum(app) for i in app]
         matrix = numpy.vstack([matrix, norm])
-        print("ciao")
 
     matrix = numpy.delete(matrix, (0), axis=0)
+    print("probabilità di trasizione calcolate")
     return matrix
 
 
