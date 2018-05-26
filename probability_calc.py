@@ -49,9 +49,9 @@ def get_trans_prob(dataset):
 # calcola le probabilità delle osservazioni
 def get_obs_prob(dataset):
 
-    data = pd.read_csv(dataset, sep="\t")
+    #data = pd.read_csv(dataset, sep="\t")
 
-    s1 = data.groupby(['Location', 'Type']).size()  # sommo tutte le occorrenze di attività-evidenza
+    s1 = dataset.groupby(['Activity', 'Evidence']).size()  # sommo tutte le occorrenze di attività-evidenza
     s = sum(s1)     # numero totale di evidenze
     norm = [float(i) / s for i in s1]
 
