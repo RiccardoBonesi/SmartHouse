@@ -347,7 +347,7 @@ Start time	End time	Location	Type	Place
 2011-12-09 11:00:13	2011-12-09 11:02:48	Toaster	Electric	Kitchen
 2011-12-09 11:00:38	2011-12-09 11:00:42	Cupboard	Magnetic	Kitchen
 2011-12-09 11:00:58	2011-12-09 11:01:21	Fridge	Magnetic	Kitchen
-2011-12-09 11:01:26	2011-12-09 11:01:29	Cooktop	PIR	Kitchen	
+2011-12-09 11:01:26	2011-12-09 11:01:29	Cooktop	PIR	Kitchen
 2011-12-09 11:01:31	2011-12-09 11:03:09	Microwave	Electric	Kitchen
 2011-12-09 11:09:35	2011-12-09 12:32:57	Seat	Pressure	Living
 2011-12-09 12:33:21	2011-12-09 12:42:15	Basin	PIR	Bathroom
