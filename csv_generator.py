@@ -94,6 +94,8 @@ def merge_dataset(dataset,sensors_input):
 
 
     finalDataset = pd.merge(sensor, state, left_on='closestTimestamp',right_on='meanTimestamp')
+
+    finalDataset['Evidence'] = finalDataset["Location"] + finalDataset["Type"] + finalDataset["Place"]
     return finalDataset
 
 
