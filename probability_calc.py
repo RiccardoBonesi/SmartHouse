@@ -50,6 +50,16 @@ def get_trans_prob(dataset):
 def get_obs_prob(dataset):
 
     #data = pd.read_csv(dataset, sep="\t")
+    # per ogni attività trovare tutte le evidenze e calcolare la probabilità per ogni stato
+
+
+    activities = dataset['Activity'].unique().tolist()
+
+    for activity in activities:
+        x = [j for i, j in enumerate(dataset['Evidence'].tolist()) if j == activity]
+        print(x)
+    #dataCount.append(data['Activity'].value_counts())
+
 
     s1 = dataset.groupby(['Activity', 'Evidence']).size()  # sommo tutte le occorrenze di attività-evidenza
     s = sum(s1)     # numero totale di evidenze
