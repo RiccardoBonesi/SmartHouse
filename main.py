@@ -6,11 +6,12 @@ if __name__ == '__main__':
     datasetList = ['Dataset/OrdonezA_ADLs.txt', 'Dataset/OrdonezB_ADLs.txt']
     sensorList = ['Dataset/OrdonezA_Sensors.txt', 'Dataset/OrdonezB_Sensors.txt']
     for dataset in datasetList:
-        mergedDataset = merge_dataset(dataset,sensorList[datasetList.index(dataset)])
-        startProb = obtain_p_adls(dataset)
-        transProb = obtain_t_adls(dataset)
+        mergedDataset = merge_dataset(dataset, sensorList[datasetList.index(dataset)])
+        startProb = get_start_prob(dataset)
+        transProb = get_trans_prob(dataset)
+        obsProb = get_obs_prob(sensorList[datasetList.index(dataset)]) # passare mergedDataset
 
-        print("ciao")
+        print("calcolate tutte le probabilità per il dataset {}".format(datasetList[datasetList.index(dataset)]))
 
 
     # ordonezA = ['Dataset/OrdonezA', 'Dataset/OrdonezA_Description', 'Dataset/OrdonezA_ADLs', 'Dataset/OrdonezA_Sensors']
