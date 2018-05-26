@@ -84,8 +84,20 @@ def merge_dataset(dataset,sensors_input):
     sensorTimestampAll = np.array([sensorTimestampStart,sensorTimestampEnd])
     sensor['meanTimestamp'] = [int(i) for i in np.average(sensorTimestampAll,axis=0)]
 
+    asdsss = []
     ## MATCHING DI STATI SU OSSERVAZIONI PER MEDIE PIù VICINE
+    for row in sensor.itertuples():
+        asd = find_nearest(state['meanTimestamp'],row[6])
+        asdsss.append(asd)
 
-    print("usssch")
+    sensor['closestTimestamp'] = asdsss
 
 
+    finalDataset = pd.merge(sensor, state, left_on='closestTimestamp',right_on='meanTimestamp')
+    return finalDataset
+
+
+def find_nearest(array, value):
+    array = np.asarray(array)
+    idx = (np.abs(array - value)).argmin()
+    return array[idx]
