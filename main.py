@@ -9,7 +9,7 @@ if __name__ == '__main__':
         mergedDataset = merge_dataset(dataset, sensorList[datasetList.index(dataset)])
         startProb = get_start_prob(dataset)
         transProb = get_trans_prob(dataset)
-        obsProb = get_obs_prob(sensorList[datasetList.index(dataset)]) # passare mergedDataset
+        obsProb = get_obs_prob(mergedDataset) # passare mergedDataset
 
         print("calcolate tutte le probabilità per il dataset {}".format(datasetList[datasetList.index(dataset)]))
 
