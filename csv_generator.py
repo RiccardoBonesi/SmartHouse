@@ -1,5 +1,9 @@
 import csv
 from datetime import datetime
+import pandas as pd
+from collections import Counter
+import numpy as np
+
 
 
 def elaborate_dataset(house):
@@ -55,5 +59,9 @@ def check_and_generate_csv(path_file):
                 writer.writerows(lines)
 
 
+def merge_dataset(dataset,sensors):
+    state = pd.read_csv(dataset, sep="\t\t")
+    sensor = pd.read_csv(sensors, sep="\t")
+    print("usssch")
 
 

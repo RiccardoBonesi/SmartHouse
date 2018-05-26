@@ -4,9 +4,12 @@ from probability_calc import *
 if __name__ == '__main__':
 
     datasetList = ['Dataset/OrdonezA_ADLs.txt', 'Dataset/OrdonezB_ADLs.txt']
+    sensorList = ['Dataset/OrdonezA_Sensors.txt', 'Dataset/OrdonezB_Sensors.txt']
     for dataset in datasetList:
+        mergedDataset = merge_dataset(dataset,sensorList[datasetList.index(dataset)])
         startProb = obtain_p_adls(dataset)
         transProb = obtain_t_adls(dataset)
+
         print("ciao")
 
 
