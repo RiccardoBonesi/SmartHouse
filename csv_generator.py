@@ -1,6 +1,8 @@
 import csv
 from datetime import datetime
 import pandas as pd
+import time
+import datetime
 from collections import Counter
 import numpy as np
 
@@ -59,9 +61,31 @@ def check_and_generate_csv(path_file):
                 writer.writerows(lines)
 
 
-def merge_dataset(dataset,sensors):
+def merge_dataset(dataset,sensors_input):
+    ## READ DATASET
     state = pd.read_csv(dataset, sep="\t\t")
-    sensor = pd.read_csv(sensors, sep="\t")
+    sensor = pd.read_csv(sensors_input , sep="\t")
+
+    ## CALCOLO MEDIATIMESTAMP E AGGIUNGO NUOVA COLONNA PER STATI
+    datesStart = state['Start time'].tolist()
+    stateTimestampStart = [datetime.datetime.strptime(date, "%Y-%m-%d %H:%M:%S").timestamp() for date in datesStart]
+
+    datesEnd = state['End time'].tolist()
+    stateTimestampEnd = [datetime.datetime.strptime(date, "%Y-%m-%d %H:%M:%S").timestamp() for date in datesEnd]
+    stateTimestampAll = np.array([stateTimestampStart, stateTimestampEnd])
+    state['meanTimestamp'] = [int(i) for i in np.average(stateTimestampAll, axis=0)]
+
+    ## CALCOLO MEDIATIMESTAMP E AGGIUNGO NUOVA COLONNA PER SENSORI
+    datesStart = sensor['Start time'].tolist()
+    sensorTimestampStart = [datetime.datetime.strptime(date, "%Y-%m-%d %H:%M:%S").timestamp() for date in datesStart]
+
+    datesEnd = sensor['End time'].tolist()
+    sensorTimestampEnd = [datetime.datetime.strptime(date, "%Y-%m-%d %H:%M:%S").timestamp() for date in datesEnd]
+    sensorTimestampAll = np.array([sensorTimestampStart,sensorTimestampEnd])
+    sensor['meanTimestamp'] = [int(i) for i in np.average(sensorTimestampAll,axis=0)]
+
+    ## MATCHING DI STATI SU OSSERVAZIONI PER MEDIE PIù VICINE
+
     print("usssch")
 
 
