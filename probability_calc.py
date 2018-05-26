@@ -7,16 +7,10 @@ import numpy as np
 
 # calcola le probabilità iniziali
 def get_start_prob(dataset):
-    activities = []
-    dataCount = []
-    sequence = []
-    data = pd.read_csv(dataset, sep="\t\t")
-    # activities.append(data['Activity'].unique())
-    # dataCount.append(data['Activity'].value_counts())
-    # sequence.append(data['Activity'])
-    s = sum(data['Activity'].value_counts())
+
+    s = sum(dataset['Activity'].value_counts())
     print(s)
-    norm = [float(i) / s for i in data['Activity'].value_counts()]
+    norm = [float(i) / s for i in dataset['Activity'].value_counts()]
 
     print("probabilità iniziali calcolate")
     return norm
@@ -26,17 +20,16 @@ def get_start_prob(dataset):
 def get_trans_prob(dataset):
     nextState = []
 
-    data = pd.read_csv(dataset, sep="\t\t")
-    qwer = len(data.index)
-    activities = data['Activity'].unique().tolist()
+
+    qwer = len(dataset.index)
+    activities = dataset['Activity'].unique().tolist()
     matrix = np.zeros(len(activities))
-    #assss = data['Activity'].tolist()
     for state in activities:
-        wooo = [i for i, j in enumerate(data['Activity'].tolist()) if j == state]
+        wooo = [i for i, j in enumerate(dataset['Activity'].tolist()) if j == state]
         nextIndex = [x + 1 for x in wooo]
         if qwer in nextIndex:
             nextIndex.remove(qwer)
-        T = [data['Activity'].tolist()[i] for i in nextIndex]
+        T = [dataset['Activity'].tolist()[i] for i in nextIndex]
         nextState.append(T)
         counter = []
         for secState in activities:

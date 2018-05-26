@@ -7,8 +7,8 @@ if __name__ == '__main__':
     sensorList = ['Dataset/OrdonezA_Sensors.txt', 'Dataset/OrdonezB_Sensors.txt']
     for dataset in datasetList:
         mergedDataset = merge_dataset(dataset, sensorList[datasetList.index(dataset)])
-        startProb = get_start_prob(dataset)
-        transProb = get_trans_prob(dataset)
+        startProb = get_start_prob(mergedDataset)
+        transProb = get_trans_prob(mergedDataset)
         obsProb = get_obs_prob(mergedDataset) # passare mergedDataset
 
         print("calcolate tutte le probabilità per il dataset {}".format(datasetList[datasetList.index(dataset)]))
