@@ -8,15 +8,6 @@ import numpy as np
 
 
 
-def elaborate_dataset(house):
-    for path_file in house:
-        if ('ADLs' in path_file) or ('Sensors' in path_file):
-            check_and_generate_csv(path_file)
-
-    house_name = house[0]
-    path_adls = house[2]
-    path_sens = house[3]
-
 
 def check_and_generate_csv(path_file):
     # print ('check file >> %s.txt <<' % path_file)

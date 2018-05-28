@@ -13,7 +13,8 @@ def get_start_prob(dataset):
     norm = [float(i) / s for i in dataset['Activity'].value_counts()]
 
     print("probabilità iniziali calcolate")
-    return norm
+    ret = pd.DataFrame([norm],columns=dataset['Activity'].unique().tolist())
+    return ret
 
 
 # calcola le probabiltà di transizione
@@ -46,8 +47,9 @@ def get_trans_prob(dataset):
         matrix = numpy.vstack([matrix, norm])
 
     matrix = numpy.delete(matrix, (0), axis=0)
+    ret = pd.DataFrame(matrix, index=activities, columns=activities)
     print("probabilità di trasizione calcolate")
-    return matrix
+    return ret
 
 
 # calcola le probabilità delle osservazioni
@@ -80,7 +82,8 @@ def get_obs_prob(dataset):
 
     matrix = numpy.delete(matrix, (0), axis=0)
     print("probabilità di trasizione calcolate")
-    return matrix
+    ret = pd.DataFrame(matrix, index=activities, columns=evidenceList)
+    return ret
 
     # #data = pd.read_csv(dataset, sep="\t")
     # # per ogni attività trovare tutte le evidenze e calcolare la probabilità per ogni stato
