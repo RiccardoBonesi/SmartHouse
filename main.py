@@ -1,5 +1,8 @@
 from csv_generator import *
+from bayespy import *
 from probability_calc import *
+from hidden_markov_model import *
+from pomegranate import *
 
 if __name__ == '__main__':
 
@@ -10,7 +13,7 @@ if __name__ == '__main__':
         startProb = get_start_prob(mergedDataset)
         transProb = get_trans_prob(mergedDataset)
         obsProb = get_obs_prob(mergedDataset) # passare mergedDataset
-
+        build_hmm(startProb,transProb,obsProb,mergedDataset)
         print("calcolate tutte le probabilità per il dataset {}".format(datasetList[datasetList.index(dataset)]))
 
 

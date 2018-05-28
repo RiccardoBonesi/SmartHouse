@@ -7,8 +7,6 @@ from collections import Counter
 import numpy as np
 
 
-
-
 def check_and_generate_csv(path_file):
     # print ('check file >> %s.txt <<' % path_file)
     file_input = open(path_file+'.txt').readlines()
