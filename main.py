@@ -24,22 +24,13 @@ if __name__ == '__main__':
         transProb = get_trans_prob(train)
         obsProb = get_obs_prob(train) # passare mergedDataset
 
-
-        # OLD HMM
-        # build_hmm(startProb,transProb,obsProb,mergedDataset)
-
-        # NEW VITERBI
         evidences = mergedDataset['Evidence'].unique().tolist()
-        arrr = test['Evidence'].values.flatten()
-        for idx, val in enumerate(arrr):
-            arrr[idx] = evidences.index(val)
-
-
-
-
+        emissions = test['Evidence'].values.flatten()
+        for idx, val in enumerate(emissions):
+            emissions[idx] = evidences.index(val)
 
         hmm = HMM(transProb.values, obsProb.values)
-        vit = viterbi(hmm, startProb.values, arrr)
+        # vit = viterbi(hmm, startProb.values.flatten(), emissions.flatten())
 
         evidences = mergedDataset['Activity'].unique().tolist()
         arrr2 = test['Activity'].values.flatten()
@@ -47,17 +38,55 @@ if __name__ == '__main__':
             arrr2[idx] = evidences.index(val)
 
 
+
+
+
+        # OLD HMM
+        a,b,c = viterbi_2(emissions,transProb.values,obsProb.values,startProb.values.flatten())
+
         result = 0
-        for ind, val in enumerate(vit):
+        for ind, val in enumerate(a):
             if (val == arrr2[ind]):
                 result = result + 1
-        result
-        print(viterbi(hmm, startProb.values, arrr))
 
 
+        print("dio")
 
-        print("calcolate tutte le probabilità per il dataset {}".format(datasetList[datasetList.index(dataset)]))
-
+        # NEW VITERBI
+        # evidences = mergedDataset['Evidence'].unique().tolist()
+        # arrr = test['Evidence'].values.flatten()
+        # for idx, val in enumerate(arrr):
+        #
+        #     arrr[idx] = int(evidences.index(val))
+        #     if isinstance(arrr[idx], str):
+        #         print("stringa")
+        #     if isinstance(arrr[idx], int):
+        #         print("int")
+        #
+        #
+        #
+        #
+        # asdone = transProb.values
+        # asdtwo = obsProb.values
+        # hmm = HMM(transProb.values, obsProb.values)
+        # vit = viterbi(hmm, startProb.values, arrr)
+        #
+        # evidences = mergedDataset['Activity'].unique().tolist()
+        # arrr2 = test['Activity'].values.flatten()
+        # for idx, val in enumerate(arrr2):
+        #     arrr2[idx] = evidences.index(val)
+        #
+        #
+        # result = 0
+        # for ind, val in enumerate(vit):
+        #     if (val == arrr2[ind]):
+        #         result = result + 1
+        # result
+        # print(viterbi(hmm, startProb.values, arrr))
+        #
+        # prova = viterbi_alg(transProb.values,obsProb.values, arrr)
+        #
+        # print("calcolate tutte le probabilità per il dataset {}".format(datasetList[datasetList.index(dataset)]))
 
 
 
