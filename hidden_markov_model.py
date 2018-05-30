@@ -24,6 +24,7 @@ class HMM:
 
 #the Viterbi algorithm
 def viterbi(hmm, initial_dist, emissions):
+    anddd = hmm.emission_dist(emissions[0])
     probs = hmm.emission_dist(emissions[0]) * initial_dist
     stack = []
 

@@ -29,12 +29,30 @@ if __name__ == '__main__':
         # build_hmm(startProb,transProb,obsProb,mergedDataset)
 
         # NEW VITERBI
+        evidences = mergedDataset['Evidence'].unique().tolist()
+        arrr = test['Evidence'].values.flatten()
+        for idx, val in enumerate(arrr):
+            arrr[idx] = evidences.index(val)
+
+
 
 
 
         hmm = HMM(transProb.values, obsProb.values)
+        vit = viterbi(hmm, startProb.values, arrr)
 
-        print(viterbi(wiki_hmm, startProb, wiki_emissions))
+        evidences = mergedDataset['Activity'].unique().tolist()
+        arrr2 = test['Activity'].values.flatten()
+        for idx, val in enumerate(arrr2):
+            arrr2[idx] = evidences.index(val)
+
+
+        result = 0
+        for ind, val in enumerate(vit):
+            if (val == arrr2[ind]):
+                result = result + 1
+        result
+        print(viterbi(hmm, startProb.values, arrr))
 
 
 
