@@ -1,7 +1,5 @@
 import numpy
-
 import pandas as pd
-from collections import Counter
 import numpy as np
 
 
@@ -9,10 +7,10 @@ import numpy as np
 def get_start_prob(dataset):
 
     s = sum(dataset['Activity'].value_counts())
-    print(s)
+    # print(s)
     norm = [float(i) / s for i in dataset['Activity'].value_counts()]
 
-    print("probabilità iniziali calcolate")
+    # print("probabilità iniziali calcolate")
     ret = pd.DataFrame([norm],columns=dataset['Activity'].unique().tolist())
     return ret
 
@@ -48,7 +46,7 @@ def get_trans_prob(dataset):
 
     matrix = numpy.delete(matrix, (0), axis=0)
     ret = pd.DataFrame(matrix, index=activities, columns=activities)
-    print("probabilità di trasizione calcolate")
+    # print("probabilità di trasizione calcolate")
     return ret
 
 
@@ -81,30 +79,6 @@ def get_obs_prob(dataset):
         matrix = numpy.vstack([matrix, norm])
 
     matrix = numpy.delete(matrix, (0), axis=0)
-    print("probabilità di trasizione calcolate")
+    # print("probabilità di trasizione calcolate")
     ret = pd.DataFrame(matrix, index=activities, columns=evidenceList)
     return ret
-
-    # #data = pd.read_csv(dataset, sep="\t")
-    # # per ogni attività trovare tutte le evidenze e calcolare la probabilità per ogni stato
-    #
-    #
-    # activities = dataset['Activity'].unique().tolist()
-    #
-    # for activity in activities:
-    #     x = dataset.loc[dataset['Activity'] == activity]
-    #     s = sum(x['Evidence'].value_counts())
-    #     print(s)
-    #     norm = [float(i) / s for i in x['Evidence'].value_counts()]
-    #     print(norm)
-    # #dataCount.append(data['Activity'].value_counts())
-    #
-    #
-    # s1 = dataset.groupby(['Activity', 'Evidence']).size()  # sommo tutte le occorrenze di attività-evidenza
-    # s = sum(s1)     # numero totale di evidenze
-    # norm = [float(i) / s for i in s1]
-    #
-    # print("probabilità delle osservazioni calcolate")
-    # return norm
-
-

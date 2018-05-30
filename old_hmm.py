@@ -1,54 +1,79 @@
 import numpy as np
 
-def viterbi_2(y, A, B, Pi=None):
-    """
-    Return the MAP estimate of state trajectory of Hidden Markov Model.
 
-    Parameters
-    ----------
-    y : array (T,)
-        Observation state sequence. int dtype.
-    A : array (K, K)
-        State transition matrix. See HiddenMarkovModel.state_transition  for
-        details.
-    B : array (K, M)
-        Emission matrix. See HiddenMarkovModel.emission for details.
-    Pi: optional, (K,)
-        Initial state probabilities: Pi[i] is the probability x[0] == i. If
-        None, uniform initial distribution is assumed (Pi[:] == 1/K).
+class HMM:
+    #constructor
+    #transition_probs[i, j] is the probability of transitioning to state i from state j
+    #emission_probs[i, j] is the probability of emitting emission j while in state i
+    def __init__(self, transition_probs, emission_probs):
+        self._transition_probs = transition_probs
+        self._emission_probs = emission_probs
 
-    Returns
-    -------
-    x : array (T,)
-        Maximum a posteriori probability estimate of hidden state trajectory,
-        conditioned on observation sequence y under the model parameters A, B,
-        Pi.
-    T1: array (K, T)
-        the probability of the most likely path so far
-    T2: array (K, T)
-        the x_j-1 of the most likely path so far
-    """
-    # Cardinality of the state space
-    K = A.shape[0]
-    # Initialize the priors with default (uniform dist) if not given by caller
-    Pi = Pi if Pi is not None else np.full(K, 1 / K)
-    T = len(y)
-    T1 = np.empty((K, T), 'd')
-    T2 = np.empty((K, T), 'B')
+    #accessors
+    def emission_dist(self, emission):
+        return self._emission_probs[:, emission]
 
-    # Initilaize the tracking tables from first observation
-    T1[:, 0] = Pi * B[:, y[0]]
-    T2[:, 0] = 0
+    @property
+    def num_states(self):
+        return self._transition_probs.shape[0]
 
-    # Iterate throught the observations updating the tracking tables
-    for i in range(1, T):
-        T1[:, i] = np.max(T1[:, i - 1] * A.T * B[np.newaxis, :, y[i]].T, 1)
-        T2[:, i] = np.argmax(T1[:, i - 1] * A.T, 1)
+    @property
+    def transition_probs(self):
+        return self._transition_probs
 
-    # Build the output, optimal model trajectory
-    x = np.empty(T, 'B')
-    x[-1] = np.argmax(T1[:, T - 1])
-    for i in reversed(range(1, T)):
-        x[i - 1] = T2[x[i], i]
 
-    return x, T1, T2
+#the Viterbi algorithm
+def viterbi_old(hmm, initial_dist, emissions):
+    asd = emissions[0]
+    asd2= initial_dist
+    asd3 = hmm.emission_dist(emissions[0])
+    probs = hmm.emission_dist(emissions[0]) * initial_dist
+    stack = []
+
+    for emission in emissions[1:]:
+        asd4 = np.row_stack(probs)
+        asd5 = hmm.transition_probs
+        trans_probs = hmm.transition_probs * np.row_stack(probs)
+        max_col_ixs = np.argmax(trans_probs, axis=0)
+        probs = hmm.emission_dist(emission) * trans_probs[max_col_ixs, np.arange(hmm.num_states)]
+
+        stack.append(max_col_ixs)
+
+    state_seq = [np.argmax(probs)]
+
+    while stack:
+        max_col_ixs = stack.pop()
+        state_seq.append(max_col_ixs[state_seq[-1]])
+
+    state_seq.reverse()
+
+    return state_seq
+
+def viterbi_alg(A_mat, O_mat, observations):
+    # get number of states
+    num_obs = observations.size
+    num_states = A_mat.shape[0]
+    # initialize path costs going into each state, start with 0
+    log_probs = np.zeros(num_states)
+    # initialize arrays to store best paths, 1 row for each ending state
+    paths = np.zeros( (num_states, num_obs+1 ))
+    paths[:, 0] = np.arange(num_states)
+    # start looping
+    for obs_ind, obs_val in enumerate(observations):
+        # for each obs, need to check for best path into each state
+        for state_ind in range(num_states):
+            # given observation, check prob of each path
+            temp_probs = log_probs + \
+                         np.log(O_mat[state_ind, obs_val]) + \
+                         np.log(A_mat[:, state_ind])
+            # check for largest score
+            best_temp_ind = np.argmax(temp_probs)
+            # save the path with a higher prob and score
+            paths[state_ind,:] = paths[best_temp_ind,:]
+            paths[state_ind,(obs_ind+1)] = state_ind
+            log_probs[state_ind] = temp_probs[best_temp_ind]
+    # we now have a best stuff going into each path, find the best score
+    best_path_ind = np.argmax(log_probs)
+    # done, get out.
+    return (best_path_ind, paths, log_probs)
+
