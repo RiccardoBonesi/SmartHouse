@@ -1,8 +1,7 @@
-from pomegranate import *
 from bayespy.nodes import Categorical, Mixture
 from bayespy.inference import VB
 from bayespy.nodes import CategoricalMarkovChain
-import bayespy.plot as bpplt
+
 
 def build_hmm(start_prob,trans_prob, obs_prob, merged_dataset):
     asd = start_prob.values[0]
