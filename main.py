@@ -9,21 +9,32 @@ if __name__ == '__main__':
     sensorList = ['Dataset/OrdonezA_Sensors.txt', 'Dataset/OrdonezB_Sensors.txt']
     for dataset in datasetList:
         mergedDataset = merge_dataset(dataset, sensorList[datasetList.index(dataset)])
-        startProb = get_start_prob(mergedDataset)
-        transProb = get_trans_prob(mergedDataset)
-        obsProb = get_obs_prob(mergedDataset) # passare mergedDataset
+
+        if (dataset == 'Dataset/OrdonezA_ADLs.txt'):
+            trainIndex = range(0, 367)
+            testIndex = range(367, len(mergedDataset.index))
+            train = mergedDataset.loc[trainIndex, :]
+            test = mergedDataset.loc[testIndex, :]
+        else:
+            trainIndex = range(0, 2079)
+            testIndex = range(2079, len(mergedDataset.index))
+            train = mergedDataset.loc[trainIndex, :]
+            test = mergedDataset.loc[testIndex, :]
+        startProb = get_start_prob(train)
+        transProb = get_trans_prob(train)
+        obsProb = get_obs_prob(train) # passare mergedDataset
+
 
         # OLD HMM
-        build_hmm(startProb,transProb,obsProb,mergedDataset)
+        # build_hmm(startProb,transProb,obsProb,mergedDataset)
 
         # NEW VITERBI
-        wiki_transition_probs = np.array([[0.7, 0.4], [0.3, 0.6]])  # 0=Healthy, 1=Fever
-        wiki_emissions = [2, 1, 0]
-        wiki_emission_probs = np.array([[0.1, 0.4, 0.5], [0.6, 0.3, 0.1]])  # 0=Dizzy, 1=Cold, 2=Normal
-        wiki_initial_dist = np.array([[0.6, 0.4]])
-        wiki_hmm = HMM(wiki_transition_probs, wiki_emission_probs)
 
-        print(viterbi(wiki_hmm, wiki_initial_dist, wiki_emissions))
+
+
+        hmm = HMM(transProb.values, obsProb.values)
+
+        print(viterbi(wiki_hmm, startProb, wiki_emissions))
 
 
 
