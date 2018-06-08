@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def viterbi(y, A, B, Pi=None):
     """
     Return the MAP estimate of state trajectory of Hidden Markov Model.
@@ -52,3 +53,32 @@ def viterbi(y, A, B, Pi=None):
         x[i - 1] = T2[x[i], i]
 
     return x, T1, T2
+
+
+def test_forward():
+    # test usando l'assignment "hmm filtering" su elearning
+    p = np.array([0.98, 0.02])
+    T = np.array([[0.4, 0.6], [0.1, 0.9]])
+    O = np.array([[0.8, 0.2], [0.1,0.9]])
+    oss = np.array([0,1,1])
+    forward_prob = forward(oss,T,O,p)
+    print(forward_prob)
+
+
+
+def forward(obs, A, B, pi):
+    # obs = observation list, A = Transition probs, B = Emission Probs, pi = initial distribution
+    fwd = [{}]
+    states = A.shape[0]
+    # Initialize base cases (t == 0)
+    for y in range(states):
+        fwd[0][y] = pi[y] * B[y][obs[0]]
+    # Run Forward algorithm for t > 0
+    for t in range(1, len(obs)):
+        fwd.append({})
+        for y in range(states):
+            fwd[t][y] = sum((fwd[t - 1][y0] * A[y0][y] * B[y][obs[t]]) for y0 in range(states))
+    prob = sum((fwd[len(obs) - 1][s]) for s in range(states))
+    return prob
+
+

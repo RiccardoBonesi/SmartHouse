@@ -39,7 +39,8 @@ if __name__ == '__main__':
         for idx, val in enumerate(giusti):
             giusti[idx] = evidences.index(val)
 
-        # OLD HMM
+
+        # VITERBI
         viterbi_result,b,c = viterbi(emissions,transProb.values,obsProb.values,startProb.values.flatten())
 
         # CONTO QUANTI STATI HO INDOVINATO
@@ -53,4 +54,16 @@ if __name__ == '__main__':
         print("Stati effettivi: {}".format(giusti))
         print("Stati predetti: {}".format(viterbi_result))
         print("Stati corretti: {} su {}".format(result, len(test)))
+
+
+
+        test_forward()
+
+        print("FILTERING")
+
+        # FILTERING
+        filtering = forward(emissions, transProb.values, obsProb.values, startProb.values.flatten())
+
+        print(filtering)
+
 
