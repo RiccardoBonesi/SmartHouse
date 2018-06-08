@@ -1,7 +1,14 @@
+# from PyQt5.uic.properties import QtGui
+from PyQt5 import QtGui
+
 from main import *
 import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton
 
+from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
+# from PyQt5.QtCore import *
+# from epics import PV
 
 class App(QWidget):
 
@@ -29,7 +36,27 @@ class App(QWidget):
         self.show()
 
 
-    # def show_matrix(self, frame):
+    # def show_matrix(self, data):
+    #     # self.data = np.array(self.data).reshape(2048, 2048).astype(np.int32)
+    #
+    #     qimage = QtGui.QImage(data, data.shape[0], data.shape[1], QtGui.QImage.Format_RGB32)
+    #     img = PrintImage(QPixmap(qimage))
+    #     print('ciao')
+
+
+    # NON FUNZIONA
+    def show_matrix(self, data):
+        self.setWindowTitle(self.title)
+        self.setGeometry(self.left, self.top, self.width, self.height)
+
+        # Create widget
+        label = QLabel(self)
+        qimage = QtGui.QImage(data, data.shape[0], data.shape[1], QtGui.QImage.Format_RGB32)
+        pixmap = QPixmap(qimage)
+        label.setPixmap(pixmap)
+        self.resize(pixmap.width(), pixmap.height())
+
+        self.show()
 
 
 
@@ -43,7 +70,20 @@ class App(QWidget):
         print(startProb)
 
 
+class PrintImage(QWidget):
+    def __init__(self, pixmap, parent=None):
+        QWidget.__init__(self, parent=parent)
+        self.pixmap = pixmap
+
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        painter.drawPixmap(self.rect(), self.pixmap)
+
+
+
+
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = App()
     sys.exit(app.exec_())
+
