@@ -3,6 +3,10 @@ from probability_calc import *
 from hmm import *
 
 
+# NOTA PER STEFANO: per debuggare questo file senza usare la GUI
+# decommenta il  if __name__ == '__main__': sotto il metodo calculate
+
+
 # predizione sul dataset dt
 def calculate(dt):
     if dt == 1:
@@ -85,6 +89,7 @@ def calculate(dt):
 
 
 # if __name__ == '__main__':
+#     # 1=dataset A, 2=dataset B
 #     calculate(1)
 
 
