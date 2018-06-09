@@ -88,9 +88,9 @@ def calculate(dt):
 
 
 
-# if __name__ == '__main__':
-#     # 1=dataset A, 2=dataset B
-#     calculate(1)
+if __name__ == '__main__':
+    # 1=dataset A, 2=dataset B
+     calculate(2)
 
 
 
