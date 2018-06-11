@@ -47,20 +47,23 @@ class App(QWidget):
         myFont = QtGui.QFont()
         myFont.setBold(True)
 
+        myTitle = QtGui.QFont()
+        myTitle.setBold(True)
+        myTitle.setPointSize(18)
+
         # label titolo
         title_label = QLabel('SmartHouse', self)
-        title_label.move(350, 10)
-        title_label.setFont(myFont)
+        title_label.move(300, 10)
+        title_label.setFont(myTitle)
 
         # choose days
         choose_days_label = QLabel('Choose days to test: ', self)
         choose_days_label.move(330, 50)
-        # choose_days_label.setFont(myFont)
 
-        # layout = QHBoxLayout()
+        # COMBO BOX per la selezione dei giorni
         self.cb = QComboBox(self)
-        self.cb.addItems(["1", "2", "3", "4", "5"])
-        self.cb.currentIndexChanged.connect(self.selectionchange)
+        self.cb.addItems(["","1", "2", "3", "4", "5"])
+        self.cb.currentIndexChanged.connect(self.set_days)
         self.cb.setGeometry(360,80,60,30) # x, y, width, height
 
 
@@ -112,13 +115,15 @@ class App(QWidget):
 
 
 
-    def selectionchange(self, i):
+    def set_days(self, i):
         # print("Items in the list are :")
         # for count in range(self.cb.count()):
         #     print(self.cb.itemText(count))
         # print("Current index", i, "selection changed ", self.cb.currentText())
 
-        self.days = i+1  # self.cb.currentText()
+
+        self.days = i
+
 
 
 
@@ -169,26 +174,6 @@ class App(QWidget):
 
         print("DAYS: {}".format(self.days))
 
-
-
-
-
-
-
-# Finestra di visualizzazione delle matrici di probabilità
-# class Second(QMainWindow):
-#     def __init__(self, parent=App):
-#         super(Second, self).__init__(parent)
-#         self.title = 'smarthouse'
-#         self.left = 100
-#         self.top = 100
-#         self.width = 400
-#         self.height = 200
-#         self.initUI()
-#
-#     def initUI(self):
-#         l1 = QLabel('SmartHouse', self)
-#         l1.move(150, 10)
 
 
 

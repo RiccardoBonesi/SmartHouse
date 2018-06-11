@@ -8,29 +8,29 @@ from hmm import *
 
 # CREO TRAIN E TEST SET PER DATASET A
 def create_set_A(mergedDataset, days):
-    if days == 2:
+    if days == 1:
         trainIndex = range(0, 367)
         testIndex = range(367, len(mergedDataset.index))
         train = mergedDataset.loc[trainIndex, :]
         test = mergedDataset.loc[testIndex, :]
-    elif days == 3:
+    elif days == 2:
         trainIndex = range(68, len(mergedDataset.index))
         testIndex = range(0, 67)
         train = mergedDataset.loc[trainIndex, :]
         test = mergedDataset.loc[testIndex, :]
-    elif days == 4:
+    elif days == 3:
         trainIndex = range(0, 247)
         train = mergedDataset.loc[trainIndex, :]
         train = train.append(mergedDataset.loc[range(319,len(mergedDataset.index)),:])
         testIndex = range(248, 318)
         test = mergedDataset.loc[testIndex, :]
-    elif days == 5:
+    elif days == 4:
         trainIndex = range(0, 318)
         train = mergedDataset.loc[trainIndex, :]
         train = train.append(mergedDataset.loc[range(367, len(mergedDataset.index)), :])
         testIndex = range(319, 366)
         test = mergedDataset.loc[testIndex, :]
-    elif days == 6:
+    elif days == 5:
         trainIndex = range(0, 105)
         train = mergedDataset.loc[trainIndex, :]
         train = train.append(mergedDataset.loc[range(159, len(mergedDataset.index)), :])
@@ -43,10 +43,10 @@ def create_set_A(mergedDataset, days):
 
 
 def create_set_B(mergedDataset, days):
-    if days == 2:
+    if days == 1:
         trainIndex = range(157, len(mergedDataset.index))
         testIndex = range(0, 157)
-    elif days == 3:
+    elif days == 2:
         # TODO
         trainIndex = range(0, 2079)
         testIndex = range(2079, len(mergedDataset.index))
@@ -143,9 +143,10 @@ def calculate(dt, days):
 
 
 
-if __name__ == '__main__':
-    # 1=dataset A, 2=dataset B
-    calculate(1, 2)
+# if __name__ == '__main__':
+#     # 1=dataset A, 2=dataset B
+#     # datset, days
+#     calculate(1, 2)
 
 
 
