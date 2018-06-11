@@ -12,15 +12,10 @@ from PyQt5.QtWidgets import *
  # from PyQt5.QtCore import *
 # from epics import PV
 
-
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
-from matplotlib.figure import Figure
-import random
-
-import matplotlib.pyplot as plt
-import numpy as np
-
+from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QBrush, QColor, QPalette
+from PyQt5.QtWidgets import QApplication, qApp
+from qroundprogressbar import QRoundProgressBar
 
 
 
@@ -35,7 +30,7 @@ class App(QWidget):
         self.left = 100
         self.top = 100
         self.width = 800
-        self.height = 600
+        self.height = 800
         self.initUI()
 
 
@@ -107,8 +102,19 @@ class App(QWidget):
         self.accuracy_value_label = QLabel(self)
         self.accuracy_value_label.move(20, 510)
 
+        self.progress = QRoundProgressBar(self)
+        self.progress.setBarStyle(QRoundProgressBar.BarStyle.PIE) # DONUT, LINE
 
-        # TODO: aggiungere scelta giorni
+        # style accordingly via palette
+        palette = QPalette()
+        brush = QBrush(QColor(50,205,50))
+        brush.setStyle(Qt.SolidPattern)
+        palette.setBrush(QPalette.Active, QPalette.Highlight, brush)
+
+        self.progress.setPalette(palette)
+        self.progress.setGeometry(20, 550, 150, 150)  # x, y, width, height
+
+        self.progress.hide()
 
 
         self.show()
@@ -143,6 +149,10 @@ class App(QWidget):
         self.accuracy_value_label.setText(str(accuracy) + " %")
         self.accuracy_value_label.adjustSize()
 
+        self.progress.setValue(accuracy)
+        qApp.processEvents()
+        self.progress.show()
+
 
 
     def hide_results(self):
@@ -151,6 +161,7 @@ class App(QWidget):
         self.truth_states_label.hide()
         self.pred_states_label.hide()
         self.accuracy_label.hide()
+        self.progress.hide()
 
 
 
