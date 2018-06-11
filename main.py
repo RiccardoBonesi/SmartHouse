@@ -68,22 +68,32 @@ def calculate(dt):
     filtering = myhmm.forward(emissions, transProb.values, obsProb.values, startProb.values.flatten())
     asd2, asd = myhmm.viterbi_old(emissions, transProb.values, obsProb.values, startProb.values.flatten())
 
-    result = 0
-    for ind, val in enumerate(asd):
-        if val == giusti[ind]:
-            result = result + 1
-
-    print("Stati predetti: {}".format(viterbi_result))
-    print("Stati predetti: {}".format(asd))
-
-    print("Stati corretti: {} su {}".format(result, len(test)))
+    # result = 0
+    # for ind, val in enumerate(asd):
+    #     if val == giusti[ind]:
+    #         result = result + 1
+    #
+    # print("Stati predetti: {}".format(viterbi_result))
+    # print("Stati predetti: {}".format(asd))
+    #
+    # print("Stati corretti: {} su {}".format(result, len(test)))
     # var = myhmm.forward_backward(emissions, transProb.values, obsProb.values, startProb.values.flatten())
     print(filtering)
 
 
 
-    return startProb.values.flatten(), transProb.values, obsProb.values
+    accuracy = (result * 100) / len(test)
+    print("Accuratezza: {}".format(accuracy))
 
+    # return startProb.values.flatten(), transProb.values, obsProb.values
+
+
+    # viterbi_result = lista stati predetti
+    # result = stati indovinati
+    # giusti = stati reali (groung truth)
+    # len(test) = stati totali da predirre
+    # accuracy = accuratezza sugli stati predetti
+    return viterbi_result, result, giusti, len(test), accuracy
 
 
 
