@@ -37,7 +37,6 @@ class App(QWidget):
         self.width = 800
         self.height = 600
         self.initUI()
-        # self.dialog = Second(self)
 
 
     def initUI(self):
@@ -49,56 +48,77 @@ class App(QWidget):
         myFont.setBold(True)
 
         # label titolo
-        title = QLabel('SmartHouse',self)
-        title.move(350, 10)
-        title.setFont(myFont)
+        title_label = QLabel('SmartHouse', self)
+        title_label.move(350, 10)
+        title_label.setFont(myFont)
+
+        # choose days
+        choose_days_label = QLabel('Choose days to test: ', self)
+        choose_days_label.move(330, 50)
+        # choose_days_label.setFont(myFont)
+
+        # layout = QHBoxLayout()
+        self.cb = QComboBox(self)
+        self.cb.addItems(["1", "2", "3", "4", "5"])
+        self.cb.currentIndexChanged.connect(self.selectionchange)
+        self.cb.setGeometry(360,80,60,30) # x, y, width, height
 
 
-        choose = QLabel('Choose a Dataset:', self)
-        choose.move(340, 60)
+        choose_dataset_label = QLabel('Choose a Dataset:', self)
+        choose_dataset_label.move(340, 120)
 
 
         # bottoni per scegliere il dataset
         button1 = QPushButton('Dataset A', self)
-        button1.move(290, 100)
+        button1.move(290, 150)
         button1.clicked.connect(lambda: self.on_button(1))
 
         button2 = QPushButton('Dataset B', self)
-        button2.move(410, 100)
+        button2.move(410, 150)
         button2.clicked.connect(lambda: self.on_button(2))
 
 
         # RESULTS
         self.truth_label = QLabel('Ground truth:', self)
-        self.truth_label.move(20, 150)
+        self.truth_label.move(20, 180)
         self.truth_label.setFont(myFont)
         self.truth_label.hide()
 
         self.truth_states_label = QLabel(self)
-        self.truth_states_label.move(20, 170)
+        self.truth_states_label.move(20, 200)
 
         self.pred_label = QLabel('Predicted: ', self)
-        self.pred_label.move(20,300)
+        self.pred_label.move(20,320)
         self.pred_label.setFont(myFont)
         self.pred_label.hide()
 
         self.pred_states_label = QLabel(self)
-        self.pred_states_label.move(20, 320)
+        self.pred_states_label.move(20, 340)
 
 
         self.accuracy_label = QLabel('Accuracy: ', self)
-        self.accuracy_label.move(20, 450)
+        self.accuracy_label.move(20, 490)
         self.accuracy_label.setFont(myFont)
         self.accuracy_label.hide()
 
         self.accuracy_value_label = QLabel(self)
-        self.accuracy_value_label.move(20, 470)
+        self.accuracy_value_label.move(20, 510)
+
+
+        # TODO: aggiungere scelta giorni
+
 
         self.show()
 
 
 
+    def selectionchange(self, i):
+        # print("Items in the list are :")
+        # for count in range(self.cb.count()):
+        #     print(self.cb.itemText(count))
+        # print("Current index", i, "selection changed ", self.cb.currentText())
 
+        self.days = i+1  # self.cb.currentText()
 
 
 
@@ -139,11 +159,13 @@ class App(QWidget):
         if not first_start:
             self.hide_results()
 
-        list_pred, pred, list_truth, n_states, accuracy = calculate(n)
+        list_pred, pred, list_truth, n_states, accuracy = calculate(n,self.days)
 
         self.show_results(list_truth, list_pred, accuracy)
 
         first_start = False
+
+        print("DAYS: {}".format(self.days))
 
 
 
