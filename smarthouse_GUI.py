@@ -159,7 +159,9 @@ class App(QWidget):
         if not first_start:
             self.hide_results()
 
+
         list_pred, pred, list_truth, n_states, accuracy = calculate(n,self.days)
+
 
         self.show_results(list_truth, list_pred, accuracy)
 

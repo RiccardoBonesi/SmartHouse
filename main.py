@@ -11,21 +11,41 @@ def create_set_A(mergedDataset, days):
     if days == 2:
         trainIndex = range(0, 367)
         testIndex = range(367, len(mergedDataset.index))
+        train = mergedDataset.loc[trainIndex, :]
+        test = mergedDataset.loc[testIndex, :]
     elif days == 3:
-        # TODO
-        trainIndex = range(0, 367)
-        testIndex = range(367, len(mergedDataset.index))
+        trainIndex = range(68, len(mergedDataset.index))
+        testIndex = range(0, 67)
+        train = mergedDataset.loc[trainIndex, :]
+        test = mergedDataset.loc[testIndex, :]
+    elif days == 4:
+        trainIndex = range(0, 247)
+        train = mergedDataset.loc[trainIndex, :]
+        train = train.append(mergedDataset.loc[range(319,len(mergedDataset.index)),:])
+        testIndex = range(248, 318)
+        test = mergedDataset.loc[testIndex, :]
+    elif days == 5:
+        trainIndex = range(0, 318)
+        train = mergedDataset.loc[trainIndex, :]
+        train = train.append(mergedDataset.loc[range(367, len(mergedDataset.index)), :])
+        testIndex = range(319, 366)
+        test = mergedDataset.loc[testIndex, :]
+    elif days == 6:
+        trainIndex = range(0, 105)
+        train = mergedDataset.loc[trainIndex, :]
+        train = train.append(mergedDataset.loc[range(159, len(mergedDataset.index)), :])
+        testIndex = range(106, 158)
+        test = mergedDataset.loc[testIndex, :]
 
-    train = mergedDataset.loc[trainIndex, :]
-    test = mergedDataset.loc[testIndex, :]
+
 
     return train, test
 
 
 def create_set_B(mergedDataset, days):
     if days == 2:
-        trainIndex = range(0, 2079)
-        testIndex = range(2079, len(mergedDataset.index))
+        trainIndex = range(157, len(mergedDataset.index))
+        testIndex = range(0, 157)
     elif days == 3:
         # TODO
         trainIndex = range(0, 2079)
