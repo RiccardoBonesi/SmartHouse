@@ -3,12 +3,42 @@ from probability_calc import *
 from hmm import *
 
 
-# NOTA PER STEFANO: per debuggare questo file senza usare la GUI
-# decommenta il  if __name__ == '__main__': sotto il metodo calculate
+# NOTA: per debuggare questo file senza usare la GUI
+# decommentare il  if __name__ == '__main__': sotto il metodo calculate
+
+# CREO TRAIN E TEST SET PER DATASET A
+def create_set_A(mergedDataset, days):
+    if days == 2:
+        trainIndex = range(0, 367)
+        testIndex = range(367, len(mergedDataset.index))
+    elif days == 3:
+        # TODO
+        trainIndex = range(0, 367)
+        testIndex = range(367, len(mergedDataset.index))
+
+    train = mergedDataset.loc[trainIndex, :]
+    test = mergedDataset.loc[testIndex, :]
+
+    return train, test
+
+
+def create_set_B(mergedDataset, days):
+    if days == 2:
+        trainIndex = range(0, 2079)
+        testIndex = range(2079, len(mergedDataset.index))
+    elif days == 3:
+        # TODO
+        trainIndex = range(0, 2079)
+        testIndex = range(2079, len(mergedDataset.index))
+
+    train = mergedDataset.loc[trainIndex, :]
+    test = mergedDataset.loc[testIndex, :]
+
+    return train,test
 
 
 # predizione sul dataset dt
-def calculate(dt):
+def calculate(dt, days):
     if dt == 1:
         dataset = 'Dataset/OrdonezA_ADLs.txt'
         sensor = 'Dataset/OrdonezA_Sensors.txt'
@@ -20,15 +50,10 @@ def calculate(dt):
 
     # CREO TRAIN E TEST SET
     if dataset == 'Dataset/OrdonezA_ADLs.txt':
-        trainIndex = range(0, 367)
-        testIndex = range(367, len(mergedDataset.index))
-        train = mergedDataset.loc[trainIndex, :]
-        test = mergedDataset.loc[testIndex, :]
+        train, test = create_set_A(mergedDataset, days)
     else:
-        trainIndex = range(0, 2079)
-        testIndex = range(2079, len(mergedDataset.index))
-        train = mergedDataset.loc[trainIndex, :]
-        test = mergedDataset.loc[testIndex, :]
+        train, test = create_set_B(mergedDataset, days)
+
     startProb = get_start_prob(train)
     transProb = get_trans_prob(train)
     obsProb = get_obs_prob(train)  # passare mergedDataset
@@ -68,29 +93,39 @@ def calculate(dt):
     filtering = myhmm.forward(emissions, transProb.values, obsProb.values, startProb.values.flatten())
     asd2, asd = myhmm.viterbi_old(emissions, transProb.values, obsProb.values, startProb.values.flatten())
 
-    result = 0
-    for ind, val in enumerate(asd):
-        if val == giusti[ind]:
-            result = result + 1
-
-    print("Stati predetti: {}".format(viterbi_result))
-    print("Stati predetti: {}".format(asd))
-
-    print("Stati corretti: {} su {}".format(result, len(test)))
+    # result = 0
+    # for ind, val in enumerate(asd):
+    #     if val == giusti[ind]:
+    #         result = result + 1
+    #
+    # print("Stati predetti: {}".format(viterbi_result))
+    # print("Stati predetti: {}".format(asd))
+    #
+    # print("Stati corretti: {} su {}".format(result, len(test)))
     # var = myhmm.forward_backward(emissions, transProb.values, obsProb.values, startProb.values.flatten())
     print(filtering)
 
 
 
-    return startProb.values.flatten(), transProb.values, obsProb.values
+    accuracy = (result * 100) / len(test)
+    print("Accuratezza: {}".format(accuracy))
 
+    # return startProb.values.flatten(), transProb.values, obsProb.values
+
+
+    # viterbi_result = lista stati predetti
+    # result = stati indovinati
+    # giusti = stati reali (groung truth)
+    # len(test) = stati totali da predirre
+    # accuracy = accuratezza sugli stati predetti
+    return viterbi_result, result, giusti, len(test), accuracy
 
 
 
 
 if __name__ == '__main__':
     # 1=dataset A, 2=dataset B
-     calculate(2)
+    calculate(1, 2)
 
 
 
