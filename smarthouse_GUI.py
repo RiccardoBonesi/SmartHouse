@@ -32,7 +32,7 @@ class App(QWidget):
         self.left = 700
         self.top = 100
         self.width = 800
-        self.height = 800
+        self.height = 600
         self.initUI()
         self.days = 0
         self.method = 0
@@ -108,6 +108,8 @@ class App(QWidget):
 
         self.truth_states_label = QLabel(self)
         self.truth_states_label.move(20, 250)
+        # self.truth_states_label.setGeometry(20, 250, 100, 100)  # x, y, width, height
+        # self.truth_states_label.adjustSize()
 
         self.pred_label = QLabel('Predicted: ', self)
         self.pred_label.move(20,370)
@@ -119,12 +121,12 @@ class App(QWidget):
 
 
         self.accuracy_label = QLabel('Accuracy: ', self)
-        self.accuracy_label.move(20, 540)
+        self.accuracy_label.move(500, 230) #20,540
         self.accuracy_label.setFont(myFont)
         self.accuracy_label.hide()
 
         self.accuracy_value_label = QLabel(self)
-        self.accuracy_value_label.move(20, 560)
+        self.accuracy_value_label.move(500, 250) #20, 560
 
         self.progress = QRoundProgressBar(self)
         self.progress.setBarStyle(QRoundProgressBar.BarStyle.LINE) # DONUT, LINE, PIE
@@ -135,8 +137,8 @@ class App(QWidget):
         brush.setStyle(Qt.SolidPattern)
         palette.setBrush(QPalette.Active, QPalette.Highlight, brush)
 
-        self.progress.setPalette(palette)
-        self.progress.setGeometry(20, 600, 150, 150)  # x, y, width, height
+        self.progress.setPalette(palette) #(20, 600, 150, 150)
+        self.progress.setGeometry(500, 300, 150, 150)  # x, y, width, height
 
         self.progress.hide()
 
@@ -231,7 +233,10 @@ class App(QWidget):
 
 
 
-        list_pred, pred, list_truth, n_states, accuracy = calculate(n,self.days, self.method) #self.method
+        list_pred, pred, list_truth, n_states, accuracy = calculate(n,self.days, self.method)
+
+        # list_truth = np.array2string(list_truth).replace('\n', '')
+        # list_pred =  np.array2string(list_pred).replace('\n', '')
 
 
         self.show_results(list_truth, list_pred, accuracy)
