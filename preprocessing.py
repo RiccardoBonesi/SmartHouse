@@ -103,7 +103,10 @@ def main():
         if f.find('ADL') > 0: cols = ['activity']
         else: cols = ['location', 'type', 'place']
         df[cols] = df[cols].apply(lambda x: x.astype('category'))
+        if f.find('ADL') > 0:
+            activitiesasd = dict(enumerate(df['activity'].cat.categories))
         df[cols] = df[cols].apply(lambda x: x.cat.codes)
+
 
         # Salva il csv. Just in case
         df.to_csv(f'dataset_csv/{f}.csv', index=False)
@@ -122,3 +125,7 @@ def main():
 
         merged.to_csv(f'dataset_csv/Ordonez{"A" if f == 0 else "B"}.csv',
             sep=',', index=False)
+
+
+if __name__ == '__main__':
+    main()
