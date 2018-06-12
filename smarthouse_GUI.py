@@ -32,6 +32,7 @@ class App(QWidget):
         self.width = 800
         self.height = 800
         self.initUI()
+        self.days = 0
 
 
     def initUI(self):
@@ -57,7 +58,8 @@ class App(QWidget):
 
         # COMBO BOX per la selezione dei giorni
         self.cb = QComboBox(self)
-        self.cb.addItems(["","1", "2", "3", "4", "5"])
+        self.cb.addItems(["1", "2", "3", "4", "5"])
+        # self.cb.setCurrentIndex(0)
         self.cb.currentIndexChanged.connect(self.set_days)
         self.cb.setGeometry(360,80,60,30) # x, y, width, height
 
@@ -127,8 +129,7 @@ class App(QWidget):
         #     print(self.cb.itemText(count))
         # print("Current index", i, "selection changed ", self.cb.currentText())
 
-
-        self.days = i
+        self.days = i+1
 
 
 
@@ -174,6 +175,10 @@ class App(QWidget):
         # se non è il primo avvio nascondo tutte le label dei risultati
         if not first_start:
             self.hide_results()
+
+        # se non ho selezionato giorni di default imposto 1
+        if (self.days==0):
+            self.days=1
 
 
         list_pred, pred, list_truth, n_states, accuracy = calculate(n,self.days)
