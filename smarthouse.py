@@ -156,10 +156,6 @@ def main(train_rate=0.75, to_date=None, n_samples=0, length=None):
         T = transition_matrix(trainset_s)
         O = obs_matrix(trainset_s, trainset_o)
 
-        if n_samples > 0:
-            testset_s, testset_o = random_sample(P, T, O, n_samples)
-            # print(testset_s)
-
         # Esegue l'algoritmo di Viterbi sul testset e calcola
         # calcola la percentuale di stati predetti correttamente
         seq, p = viterbi(P, T, O, testset_o)
@@ -175,4 +171,4 @@ def main(train_rate=0.75, to_date=None, n_samples=0, length=None):
 
 
 if __name__ == '__main__':
-    main(n_samples=10000, length=600)
+    main()

@@ -48,8 +48,9 @@ def get_trans_prob(dataset):
 
     matrix = numpy.delete(matrix, (0), axis=0)
     #TODO
-    # matrix[matrix==0] = 10e-2
-    matrix[matrix == 0] = 10e-4
+    matrix[matrix==0] = 10e-5
+    #DATASET 4
+    # matrix[matrix == 0] = 10e-3
     # Calcolo delle distribuzioni di probabilità
     row_sums = matrix.sum(axis=1)
     matrix = matrix / row_sums[:, np.newaxis]
@@ -87,8 +88,9 @@ def get_obs_prob(dataset):
         matrix = numpy.vstack([matrix, norm])
 
     matrix = numpy.delete(matrix, (0), axis=0)
-    #matrix[matrix == 0] = 10e-2
-    matrix[matrix == 0] = 10e-4
+    matrix[matrix == 0] = 10e-5
+    #DATASET A
+    # matrix[matrix == 0] = 10e-3
     # Calcolo delle distribuzioni di probabilità
     row_sums = matrix.sum(axis=1)
     matrix = matrix / row_sums[:, np.newaxis]
