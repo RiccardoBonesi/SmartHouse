@@ -4,6 +4,7 @@ from PyQt5.QtCore import Qt
 from matplotlib import pyplot
 
 from main import *
+from preprocessing import *
 import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton
 
@@ -22,12 +23,13 @@ from qroundprogressbar import QRoundProgressBar
 
 
 
+
 class App(QWidget):
 
     def __init__(self):
         super().__init__()
         self.title = 'smarthouse'
-        self.left = 100
+        self.left = 700
         self.top = 100
         self.width = 800
         self.height = 800
@@ -125,7 +127,7 @@ class App(QWidget):
         self.accuracy_value_label.move(20, 560)
 
         self.progress = QRoundProgressBar(self)
-        self.progress.setBarStyle(QRoundProgressBar.BarStyle.PIE) # DONUT, LINE
+        self.progress.setBarStyle(QRoundProgressBar.BarStyle.LINE) # DONUT, LINE, PIE
 
         # style accordingly via palette
         palette = QPalette()
@@ -137,6 +139,10 @@ class App(QWidget):
         self.progress.setGeometry(20, 600, 150, 150)  # x, y, width, height
 
         self.progress.hide()
+
+        self.preproc_label = QLabel('Dataset preprocessing...', self)
+        self.preproc_label.move(320, 400)
+        self.preproc_label.hide()
 
 
         self.show()
@@ -187,6 +193,17 @@ class App(QWidget):
         self.pred_states_label.hide()
         self.accuracy_label.hide()
         self.progress.hide()
+        self.accuracy_value_label.hide()
+        # self.preproc_label.hide()
+
+
+    def start_preprocessing(self):
+        self.hide_results()
+        self.preproc_label.show()
+        app.processEvents()
+        main()
+        self.preproc_label.hide()
+
 
 
 
@@ -204,8 +221,14 @@ class App(QWidget):
         if (self.days==0):
             self.days=1
 
+        # se non ho selezionato metto di default 1
         if (self.method==0):
             self.method=1
+        elif(self.method==2): # method 2 = Time Slice
+            # avviare preprocessing Dataset
+            # self.preproc_label.setText("Starting")
+            self.start_preprocessing()
+
 
 
         list_pred, pred, list_truth, n_states, accuracy = calculate(n,self.days, self.method) #self.method
