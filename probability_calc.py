@@ -41,10 +41,18 @@ def get_trans_prob(dataset):
             counter.append(num)
             app = np.array(counter)
 
+
+
         norm = [float(i) / sum(app) for i in app]
         matrix = numpy.vstack([matrix, norm])
 
     matrix = numpy.delete(matrix, (0), axis=0)
+    #TODO
+    # matrix[matrix==0] = 10e-2
+    matrix[matrix == 0] = 10e-4
+    # Calcolo delle distribuzioni di probabilità
+    row_sums = matrix.sum(axis=1)
+    matrix = matrix / row_sums[:, np.newaxis]
     ret = pd.DataFrame(matrix, index=activities, columns=activities)
     # print("probabilità di trasizione calcolate")
     return ret
@@ -79,6 +87,11 @@ def get_obs_prob(dataset):
         matrix = numpy.vstack([matrix, norm])
 
     matrix = numpy.delete(matrix, (0), axis=0)
+    #matrix[matrix == 0] = 10e-2
+    matrix[matrix == 0] = 10e-4
+    # Calcolo delle distribuzioni di probabilità
+    row_sums = matrix.sum(axis=1)
+    matrix = matrix / row_sums[:, np.newaxis]
     # print("probabilità di trasizione calcolate")
     ret = pd.DataFrame(matrix, index=activities, columns=evidenceList)
     return ret

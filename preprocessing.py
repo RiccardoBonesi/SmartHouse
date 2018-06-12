@@ -122,7 +122,3 @@ def main():
 
         merged.to_csv(f'dataset_csv/Ordonez{"A" if f == 0 else "B"}.csv',
             sep=',', index=False)
-
-
-if __name__ == '__main__':
-    main()
