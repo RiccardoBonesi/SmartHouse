@@ -1,7 +1,8 @@
 import pandas as pd
 import numpy as np
-from datetime import datetime
+from datetime import *
 
+import pytz
 
 pd.set_option('display.expand_frame_repr', False)
 np.set_printoptions(suppress=True)
@@ -129,6 +130,9 @@ def main(train_rate=0.75, to_date=None, n_samples=0, length=None):
         mapping = dict(enumerate(df['sensors'].cat.categories))
         df[['sensors']] = df[['sensors']].apply(lambda x: x.cat.codes)
 
+
+
+        df['date'] = df['timestamp'].apply(lambda x: datetime.fromtimestamp(x, tz=pytz.UTC))
         # Divisione in testset e trainset
         if to_date:
             slice_at = to_date[f]
