@@ -97,8 +97,8 @@ def calculate(dt, days, method):
         train, test = create_set_B(mergedDataset, days)
 
     startProb = get_start_prob(train)
-    transProb = get_trans_prob(train)
-    obsProb = get_obs_prob(train)  # passare mergedDataset
+    transProb = get_trans_prob(train, dt)
+    obsProb = get_obs_prob(train, dt)
 
     # CONVERTO OSSERVAZIONI IN NUMERI
     evidences = mergedDataset['Evidence'].unique().tolist()

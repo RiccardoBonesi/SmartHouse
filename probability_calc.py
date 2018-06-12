@@ -16,7 +16,7 @@ def get_start_prob(dataset):
 
 
 # calcola le probabiltà di transizione
-def get_trans_prob(dataset):
+def get_trans_prob(dataset, dt):
     nextState = []
 
 
@@ -47,10 +47,12 @@ def get_trans_prob(dataset):
         matrix = numpy.vstack([matrix, norm])
 
     matrix = numpy.delete(matrix, (0), axis=0)
-    #TODO
-    matrix[matrix==0] = 10e-5
-    #DATASET 4
-    # matrix[matrix == 0] = 10e-3
+    # dt=1 Dataset A
+    if dt==1:
+        matrix[matrix == 0] = 10e-3
+    else:
+        matrix[matrix==0] = 10e-5
+
     # Calcolo delle distribuzioni di probabilità
     row_sums = matrix.sum(axis=1)
     matrix = matrix / row_sums[:, np.newaxis]
@@ -60,7 +62,7 @@ def get_trans_prob(dataset):
 
 
 # calcola le probabilità delle osservazioni
-def get_obs_prob(dataset):
+def get_obs_prob(dataset, dt):
     evidence = []
 
 
@@ -88,9 +90,13 @@ def get_obs_prob(dataset):
         matrix = numpy.vstack([matrix, norm])
 
     matrix = numpy.delete(matrix, (0), axis=0)
-    matrix[matrix == 0] = 10e-5
-    #DATASET A
-    # matrix[matrix == 0] = 10e-3
+
+    # dt=1 Dataset A
+    if dt==1:
+        matrix[matrix == 0] = 10e-3
+    else:
+        matrix[matrix == 0] = 10e-5
+
     # Calcolo delle distribuzioni di probabilità
     row_sums = matrix.sum(axis=1)
     matrix = matrix / row_sums[:, np.newaxis]
