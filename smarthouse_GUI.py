@@ -4,6 +4,7 @@ from PyQt5.QtCore import Qt
 from matplotlib import pyplot
 
 from main import *
+from preprocessing import *
 import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton
 
@@ -16,6 +17,7 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QBrush, QColor, QPalette
 from PyQt5.QtWidgets import QApplication, qApp
 from qroundprogressbar import QRoundProgressBar
+
 
 
 
@@ -138,6 +140,10 @@ class App(QWidget):
 
         self.progress.hide()
 
+        self.preproc_label = QLabel('Dataset preprocessing...', self)
+        self.preproc_label.move(300, 230)
+        self.preproc_label.hide()
+
 
         self.show()
 
@@ -187,6 +193,14 @@ class App(QWidget):
         self.pred_states_label.hide()
         self.accuracy_label.hide()
         self.progress.hide()
+        self.preproc_label.hide()
+
+
+    def start_preprocessing(self):
+        self.preproc_label.show()
+        main()
+        self.preproc_label.hide()
+
 
 
 
@@ -204,8 +218,13 @@ class App(QWidget):
         if (self.days==0):
             self.days=1
 
+        # se non ho selezionato metto di default 1
         if (self.method==0):
             self.method=1
+        elif(self.method==2): # method 2 = Time Slice
+            # avviare preprocessing Dataset
+            self.start_preprocessing()
+
 
 
         list_pred, pred, list_truth, n_states, accuracy = calculate(n,self.days, self.method) #self.method
