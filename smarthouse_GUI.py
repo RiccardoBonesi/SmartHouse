@@ -33,6 +33,7 @@ class App(QWidget):
         self.height = 800
         self.initUI()
         self.days = 0
+        self.method = 0
 
 
     def initUI(self):
@@ -54,55 +55,74 @@ class App(QWidget):
 
         # choose days
         choose_days_label = QLabel('Choose days to test: ', self)
-        choose_days_label.move(330, 50)
+        choose_days_label.move(200, 70)
 
         # COMBO BOX per la selezione dei giorni
-        self.cb = QComboBox(self)
-        self.cb.addItems(["1", "2", "3", "4", "5"])
+        self.cb_days = QComboBox(self)
+        self.cb_days.addItems(["1", "2", "3", "4", "5"])
         # self.cb.setCurrentIndex(0)
-        self.cb.currentIndexChanged.connect(self.set_days)
-        self.cb.setGeometry(360,80,60,30) # x, y, width, height
+        self.cb_days.currentIndexChanged.connect(self.set_days)
+        self.cb_days.setGeometry(230,100,60,30) # x, y, width, height
+
+
+
+
+        # choose method
+        choose_method_label = QLabel('Choose method: ', self)
+        choose_method_label.move(450, 70)
+
+        # COMBO BOX per la selezione del metodo
+        self.cb_method = QComboBox(self)
+        self.cb_method.addItems(["No Time Slice", "Time Slice"])
+        # self.cb.setCurrentIndex(0)
+        self.cb_method.currentIndexChanged.connect(self.set_method)
+        self.cb_method.setGeometry(440, 100, 120, 30)  # x, y, width, height
+
+
+
+
+
 
 
         choose_dataset_label = QLabel('Choose a Dataset:', self)
-        choose_dataset_label.move(340, 120)
+        choose_dataset_label.move(340, 140)
 
 
         # bottoni per scegliere il dataset
         button1 = QPushButton('Dataset A', self)
-        button1.move(290, 150)
+        button1.move(290, 170)
         button1.clicked.connect(lambda: self.on_button(1))
 
         button2 = QPushButton('Dataset B', self)
-        button2.move(410, 150)
+        button2.move(410, 170)
         button2.clicked.connect(lambda: self.on_button(2))
 
 
         # RESULTS
         self.truth_label = QLabel('Ground truth:', self)
-        self.truth_label.move(20, 180)
+        self.truth_label.move(20, 230)
         self.truth_label.setFont(myFont)
         self.truth_label.hide()
 
         self.truth_states_label = QLabel(self)
-        self.truth_states_label.move(20, 200)
+        self.truth_states_label.move(20, 250)
 
         self.pred_label = QLabel('Predicted: ', self)
-        self.pred_label.move(20,320)
+        self.pred_label.move(20,370)
         self.pred_label.setFont(myFont)
         self.pred_label.hide()
 
         self.pred_states_label = QLabel(self)
-        self.pred_states_label.move(20, 340)
+        self.pred_states_label.move(20, 390)
 
 
         self.accuracy_label = QLabel('Accuracy: ', self)
-        self.accuracy_label.move(20, 490)
+        self.accuracy_label.move(20, 540)
         self.accuracy_label.setFont(myFont)
         self.accuracy_label.hide()
 
         self.accuracy_value_label = QLabel(self)
-        self.accuracy_value_label.move(20, 510)
+        self.accuracy_value_label.move(20, 560)
 
         self.progress = QRoundProgressBar(self)
         self.progress.setBarStyle(QRoundProgressBar.BarStyle.PIE) # DONUT, LINE
@@ -114,7 +134,7 @@ class App(QWidget):
         palette.setBrush(QPalette.Active, QPalette.Highlight, brush)
 
         self.progress.setPalette(palette)
-        self.progress.setGeometry(20, 550, 150, 150)  # x, y, width, height
+        self.progress.setGeometry(20, 600, 150, 150)  # x, y, width, height
 
         self.progress.hide()
 
@@ -130,6 +150,10 @@ class App(QWidget):
         # print("Current index", i, "selection changed ", self.cb.currentText())
 
         self.days = i+1
+
+
+    def set_method(self, i):
+        self.method = i+1
 
 
 
@@ -180,8 +204,11 @@ class App(QWidget):
         if (self.days==0):
             self.days=1
 
+        if (self.method==0):
+            self.method=1
 
-        list_pred, pred, list_truth, n_states, accuracy = calculate(n,self.days)
+
+        list_pred, pred, list_truth, n_states, accuracy = calculate(n,self.days, self.method) #self.method
 
 
         self.show_results(list_truth, list_pred, accuracy)

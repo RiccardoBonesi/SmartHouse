@@ -58,7 +58,7 @@ def create_set_B(mergedDataset, days):
 
 
 # predizione sul dataset dt
-def calculate(dt, days):
+def calculate(dt, days, method):
     if dt == 1:
         dataset = 'Dataset/OrdonezA_ADLs.txt'
         sensor = 'Dataset/OrdonezA_Sensors.txt'
@@ -145,8 +145,8 @@ def calculate(dt, days):
 
 # if __name__ == '__main__':
 #     # 1=dataset A, 2=dataset B
-#     # datset, days
-#     calculate(1, 2)
+#     # datset, days, method(1=no Time Slice)
+#     calculate(1, 2, 1)
 
 
 
