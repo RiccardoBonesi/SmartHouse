@@ -104,14 +104,14 @@ def calculate(dt, days, method):
     print("Stati predetti: {}".format(viterbi_result))
     print("Stati corretti: {} su {}".format(result, len(test)))
 
-    myhmm = hmm()
-    myhmm.test_forward()
-
-    print("FILTERING")
-
-    # FILTERING
-    filtering = myhmm.forward(emissions, transProb.values, obsProb.values, startProb.values.flatten())
-    asd2, asd = myhmm.viterbi_old(emissions, transProb.values, obsProb.values, startProb.values.flatten())
+    # myhmm = hmm()
+    # myhmm.test_forward()
+    #
+    # print("FILTERING")
+    #
+    # # FILTERING
+    # filtering = myhmm.forward(emissions, transProb.values, obsProb.values, startProb.values.flatten())
+    # asd2, asd = myhmm.viterbi_old(emissions, transProb.values, obsProb.values, startProb.values.flatten())
 
     # result = 0
     # for ind, val in enumerate(asd):
@@ -123,7 +123,7 @@ def calculate(dt, days, method):
     #
     # print("Stati corretti: {} su {}".format(result, len(test)))
     # var = myhmm.forward_backward(emissions, transProb.values, obsProb.values, startProb.values.flatten())
-    print(filtering)
+    # print(filtering)
 
 
 
