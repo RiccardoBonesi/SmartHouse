@@ -2,7 +2,7 @@ from datset_utils import *
 from probability_calc import *
 from hmm import *
 from preprocessing import *
-from smarthouse import *
+from time_slice import *
 
 
 # NOTA: per debuggare questo file senza usare la GUI
@@ -131,41 +131,13 @@ def calculate(dt, days, method):
         print("Stati predetti: {}".format(viterbi_result))
         print("Stati corretti: {} su {}".format(result, len(test)))
 
-        # myhmm = hmm()
-        # myhmm.test_forward()
-        #
-        # print("FILTERING")
-        #
-        # # FILTERING
-        # filtering = myhmm.forward(emissions, transProb.values, obsProb.values, startProb.values.flatten())
-        # asd2, asd = myhmm.viterbi_old(emissions, transProb.values, obsProb.values, startProb.values.flatten())
-
-        # result = 0
-        # for ind, val in enumerate(asd):
-        #     if val == giusti[ind]:
-        #         result = result + 1
-        #
-        # print("Stati predetti: {}".format(viterbi_result))
-        # print("Stati predetti: {}".format(asd))
-        #
-        # print("Stati corretti: {} su {}".format(result, len(test)))
-        # var = myhmm.forward_backward(emissions, transProb.values, obsProb.values, startProb.values.flatten())
-        # print(filtering)
 
         accuracy = (result * 100) / len(test)
         print("Accuratezza: {}".format(accuracy))
 
-        # return startProb.values.flatten(), transProb.values, obsProb.values
-
-        # viterbi_result = lista stati predetti
-        # result = stati indovinati
-        # giusti = stati reali (groung truth)
-        # len(test) = stati totali da predirre
-        # accuracy = accuratezza sugli stati predetti
-
 
     else:
-
+        # TIME SLICE
         giusti, viterbi_result, accuracy = slice_prob(dt, days)
 
 

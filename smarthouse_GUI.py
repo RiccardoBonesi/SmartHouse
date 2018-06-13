@@ -56,8 +56,8 @@ class App(QWidget):
         title_label.setFont(myTitle)
 
         # choose days
-        choose_days_label = QLabel('Choose days to test: ', self)
-        choose_days_label.move(200, 70)
+        choose_days_label = QLabel('Choose test: ', self)
+        choose_days_label.move(220, 70)
 
         # COMBO BOX per la selezione dei giorni
         self.cb_days = QComboBox(self)
@@ -226,12 +226,6 @@ class App(QWidget):
         # se non ho selezionato metto di default 1
         if (self.method==0):
             self.method=1
-        # elif(self.method==2): # method 2 = Time Slice
-        #     # avviare preprocessing Dataset
-        #     # self.preproc_label.setText("Starting")
-        #     self.start_preprocessing()
-
-
 
         list_pred, list_truth, accuracy = calculate(dt,self.days, self.method)
 
