@@ -21,7 +21,7 @@ def txt_to_csv(path):
 
 # TODO: Prendi quella che ne ha di più
 # Discretizza il tempo e unisce i due dataset di attività ed osservazioni
-def merge_dataset(adl, obs, start_date, end_date, length=60):
+def merge_dataset_slice(adl, obs, start_date, end_date, length=60):
     first_minute = date_to_timestamp(start_date)
     last_minute = date_to_timestamp(end_date)
     n_sens = max(obs['location']) + 1
@@ -82,7 +82,7 @@ def day_period(timestamp):
     else: return 3
 
 
-def main():
+def generate_dataset():
     if not os.path.exists('dataset_csv'): os.makedirs('dataset_csv')
     files = [
         'OrdonezA_ADLs',
@@ -113,6 +113,10 @@ def main():
         df.reset_index(inplace=True)
         dfs[f] = df
 
+
+        dataset = []    # lista di dataset (mergiati) da ritornare
+        dt = 0          # indice della lista
+
     for f in range(2):
         adl = dfs[files[2 * f]]
         obs = dfs[files[2 * f + 1]]
@@ -121,11 +125,17 @@ def main():
         # durante l'attività del sensore.pa
         start_date = "2011-11-28 00:00:00" if f == 0 else "2012-11-11 00:00:00"
         end_date = "2011-12-11 23:59:59" if f == 0 else "2012-12-02 23:59:59"
-        merged = merge_dataset(adl, obs, start_date, end_date)
+        merged = merge_dataset_slice(adl, obs, start_date, end_date)
+
+        # mi salvo i datset mergiati in una lista che poi ritorno
+        dataset[dt] = merged
+        dt = dt + 1
 
         merged.to_csv(f'dataset_csv/Ordonez{"A" if f == 0 else "B"}.csv',
             sep=',', index=False)
 
+    return dataset
 
-if __name__ == '__main__':
-    main()
+
+# if __name__ == '__main__':
+#     generate_dataset()

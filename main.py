@@ -1,6 +1,7 @@
 from datset_utils import *
 from probability_calc import *
 from hmm import *
+from preprocessing import *
 
 
 # NOTA: per debuggare questo file senza usare la GUI
@@ -84,7 +85,6 @@ def calculate(dt, days, method):
 
     if method==1:
         # NO TIME SLICE
-
         if dt == 1:
             dataset = 'Dataset/OrdonezA_ADLs.txt'
             sensor = 'Dataset/OrdonezA_Sensors.txt'
@@ -104,14 +104,28 @@ def calculate(dt, days, method):
     else:
         # TIME SLICE
         if dt == 1:
-            dataset = 'dataset_csv/OrdonezA_ADLs.csv'
-            sensor = 'dataset_csv/OrdonezA_Sensors.csv'
+            try:
+                # prende il dataset mergiato dal csv
+                mergedDataset = pd.read_csv('dataset_csv/OrdonezA.csv')
+            except:
+                 # se non trova il csv esegue il preprocessing
+                mergedDataset = generate_dataset()[0]
         else:
-            dataset = 'dataset_csv/rdonezA_ADLs.csv'
-            sensor = 'dataset_csv/OrdonezB_Sensors.csv'
+            try:
+                # prende il dataset mergiato dal csv
+                mergedDataset = pd.read_csv('dataset_csv/OrdonezB.csv')
+            except:
+                 # se non trova il csv esegue il preprocessing
+                mergedDataset = generate_dataset()[1]
 
 
-        ##### TODO MERGE DATASET ######
+
+    print("eskere")
+
+
+
+
+
 
         ##### TODO CREATE TRAIN + TEST #####
 
@@ -187,10 +201,10 @@ def calculate(dt, days, method):
 
 
 
-# if __name__ == '__main__':
-#     # 1=dataset A, 2=dataset B
-#     # datset, days, method(1=no Time Slice)
-#     calculate(1, 2, 1)
+if __name__ == '__main__':
+    # 1=dataset A, 2=dataset B
+    # datset, days, method(1=no Time Slice)
+    calculate(1, 2, 2)
 
 
 
