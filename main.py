@@ -52,7 +52,6 @@ def create_set_B(mergedDataset, days):
         testIndex = range(581, 807)
         test = mergedDataset.loc[testIndex, :]
     elif days == 2:
-        # TODO 1828 2078
         trainIndex = range(0, 1827)
         train = mergedDataset.loc[trainIndex, :]
         train = train.append(mergedDataset.loc[range(2079, len(mergedDataset.index)), :])

@@ -1,7 +1,7 @@
 from preprocessing import *
 from hmm import *
 
-import pytz
+import pytz # allows accurate and cross platform timezone calculations
 
 
 def probability_distribution(seq1, seq2):
@@ -27,7 +27,7 @@ def probability_distribution(seq1, seq2):
 def prior(transitions):
     g = transitions.groupby(transitions)
     result = g.count() / g.count().sum()
-    return result.as_matrix()
+    return result.values
 
 
 # Calcola la matrice di transizione data la sequenza di stati ad ogni tempo t
@@ -50,9 +50,9 @@ def print_numpy_matrix(m):
 
 
 # CALCOLA LE MATRICI DI PROBABILITA' PER I TIME SLICE
-def slice_prob(dt, days, train_rate=0.75, to_date=None, n_samples=0, length=None):
-    res = []
+def slice_prob(dt, days):
 
+    # controllo se DATASET A oppure B
     if dt == 1:
         try:
             # prende il dataset mergiato dal csv
@@ -77,7 +77,7 @@ def slice_prob(dt, days, train_rate=0.75, to_date=None, n_samples=0, length=None
     df['date'] = df['timestamp'].apply(lambda x: datetime.fromtimestamp(x, tz=pytz.UTC))
 
     if dt == 1:
-        # DATASET A: TRAIN E TEST SET
+        # DATASET B: TRAIN E TEST SET
         if days == 1:
             trainIndex = range(0, 16401)
             testIndex = range(16402, len(df.index))
@@ -147,23 +147,23 @@ def slice_prob(dt, days, train_rate=0.75, to_date=None, n_samples=0, length=None
             train = train.append(df.loc[range(15765, len(df.index)), :])
             testIndex = range(13165, 15764)
             test = df.loc[testIndex, :]
-        # DATASET B: TRAIN E TEST SET
+
 
 
     trainset_s = train['activity']
     trainset_o = train['sensors']
     testset_s = test['activity'].tolist()
     testset_o = test['sensors'].tolist()
-    size = test.shape[0]
-
-
 
     # Calcolo delle distribuzioni della HMM
     P = prior(trainset_s)
     T = transition_matrix(trainset_s)
     O = obs_matrix(trainset_s, trainset_o)
 
+    # VITERBI
     viterbi_result, p, x = hmm.viterbi(testset_o, T, O, P)
+
+    # CONTO QUANTI STATI HO INDOVINATO
     c = 0
     for i, j in zip(viterbi_result, testset_s):
         if i == j:
