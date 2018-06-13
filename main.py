@@ -81,20 +81,42 @@ def create_set_B(mergedDataset, days):
 
 # predizione sul dataset dt
 def calculate(dt, days, method):
-    if dt == 1:
-        dataset = 'Dataset/OrdonezA_ADLs.txt'
-        sensor = 'Dataset/OrdonezA_Sensors.txt'
-    else:
-        dataset = 'Dataset/OrdonezB_ADLs.txt'
-        sensor = 'Dataset/OrdonezB_Sensors.txt'
 
-    mergedDataset = merge_dataset(dataset, sensor)
+    if method==1:
+        # NO TIME SLICE
 
-    # CREO TRAIN E TEST SET
-    if dataset == 'Dataset/OrdonezA_ADLs.txt':
-        train, test = create_set_A(mergedDataset, days)
+        if dt == 1:
+            dataset = 'Dataset/OrdonezA_ADLs.txt'
+            sensor = 'Dataset/OrdonezA_Sensors.txt'
+        else:
+            dataset = 'Dataset/OrdonezB_ADLs.txt'
+            sensor = 'Dataset/OrdonezB_Sensors.txt'
+
+        mergedDataset = merge_dataset(dataset, sensor)
+
+        # CREO TRAIN E TEST SET
+        if dataset == 'Dataset/OrdonezA_ADLs.txt':
+            train, test = create_set_A(mergedDataset, days)
+        else:
+            train, test = create_set_B(mergedDataset, days)
+
+
     else:
-        train, test = create_set_B(mergedDataset, days)
+        # TIME SLICE
+        if dt == 1:
+            dataset = 'dataset_csv/OrdonezA_ADLs.csv'
+            sensor = 'dataset_csv/OrdonezA_Sensors.csv'
+        else:
+            dataset = 'dataset_csv/rdonezA_ADLs.csv'
+            sensor = 'dataset_csv/OrdonezB_Sensors.csv'
+
+
+        ##### TODO MERGE DATASET ######
+
+        ##### TODO CREATE TRAIN + TEST #####
+
+
+
 
     startProb = get_start_prob(train)
     transProb = get_trans_prob(train, dt)
