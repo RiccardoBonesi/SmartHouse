@@ -46,35 +46,34 @@ def create_set_A(mergedDataset, days):
 
 def create_set_B(mergedDataset, days):
     if days == 1:
-        trainIndex = range(0, 580)
+        trainIndex = range(0, 6673)
         train = mergedDataset.loc[trainIndex, :]
-        train = train.append(mergedDataset.loc[range(808, len(mergedDataset.index)), :])
-        testIndex = range(581, 807)
+        train = train.append(mergedDataset.loc[range(9036, len(mergedDataset.index)), :])
+        testIndex = range(6674, 9035)
         test = mergedDataset.loc[testIndex, :]
     elif days == 2:
-        # TODO 1828 2078
-        trainIndex = range(0, 1827)
+        trainIndex = range(0, 22329)
         train = mergedDataset.loc[trainIndex, :]
-        train = train.append(mergedDataset.loc[range(2079, len(mergedDataset.index)), :])
-        testIndex = range(1828, 2078)
+        train = train.append(mergedDataset.loc[range(24809, len(mergedDataset.index)), :])
+        testIndex = range(22330, 24808)
         test = mergedDataset.loc[testIndex, :]
     elif days == 3:
-        trainIndex = range(0, 15)
+        trainIndex = range(0, 275)
         train = mergedDataset.loc[trainIndex, :]
-        train = train.append(mergedDataset.loc[range(275, len(mergedDataset.index)), :])
-        testIndex = range(16, 274)
+        train = train.append(mergedDataset.loc[range(2672, len(mergedDataset.index)), :])
+        testIndex = range(276, 2671)
         test = mergedDataset.loc[testIndex, :]
     elif days == 4:
-        trainIndex = range(0, 1706)
+        trainIndex = range(0, 21092)
         train = mergedDataset.loc[trainIndex, :]
-        train = train.append(mergedDataset.loc[range(1963, len(mergedDataset.index)), :])
-        testIndex = range(1707, 1962)
+        train = train.append(mergedDataset.loc[range(23564, len(mergedDataset.index)), :])
+        testIndex = range(21091, 23563)
         test = mergedDataset.loc[testIndex, :]
     elif days == 5:
-        trainIndex = range(0, 1105)
+        trainIndex = range(0, 13164)
         train = mergedDataset.loc[trainIndex, :]
-        train = train.append(mergedDataset.loc[range(1302, len(mergedDataset.index)), :])
-        testIndex = range(1106, 1301)
+        train = train.append(mergedDataset.loc[range(15765, len(mergedDataset.index)), :])
+        testIndex = range(13165, 15764)
         test = mergedDataset.loc[testIndex, :]
 
 
