@@ -2,6 +2,7 @@ from datset_utils import *
 from probability_calc import *
 from hmm import *
 from preprocessing import *
+from smarthouse import *
 
 
 # NOTA: per debuggare questo file senza usare la GUI
@@ -100,103 +101,79 @@ def calculate(dt, days, method):
         else:
             train, test = create_set_B(mergedDataset, days)
 
+        startProb = get_start_prob(train)
+        transProb = get_trans_prob(train, dt)
+        obsProb = get_obs_prob(train, dt)
+
+        # CONVERTO OSSERVAZIONI IN NUMERI
+        evidences = mergedDataset['Evidence'].unique().tolist()
+        emissions = test['Evidence'].values.flatten()
+        for idx, val in enumerate(emissions):
+            emissions[idx] = evidences.index(val)
+
+        # CONVERTO GLI STATI IN NUMERI
+        states = mergedDataset['Activity'].unique().tolist()
+        giusti = test['Activity'].values.flatten()
+        for idx, val in enumerate(giusti):
+            giusti[idx] = states.index(val)
+
+        # VITERBI
+        viterbi_result, b, c = hmm.viterbi(emissions, transProb.values, obsProb.values, startProb.values.flatten())
+
+        # CONTO QUANTI STATI HO INDOVINATO
+        result = 0
+        for ind, val in enumerate(viterbi_result):
+            if val == giusti[ind]:
+                result = result + 1
+
+        print("DATASET: {}".format(dataset))
+        print("Stati effettivi: {}".format(giusti))
+        print("Stati predetti: {}".format(viterbi_result))
+        print("Stati corretti: {} su {}".format(result, len(test)))
+
+        # myhmm = hmm()
+        # myhmm.test_forward()
+        #
+        # print("FILTERING")
+        #
+        # # FILTERING
+        # filtering = myhmm.forward(emissions, transProb.values, obsProb.values, startProb.values.flatten())
+        # asd2, asd = myhmm.viterbi_old(emissions, transProb.values, obsProb.values, startProb.values.flatten())
+
+        # result = 0
+        # for ind, val in enumerate(asd):
+        #     if val == giusti[ind]:
+        #         result = result + 1
+        #
+        # print("Stati predetti: {}".format(viterbi_result))
+        # print("Stati predetti: {}".format(asd))
+        #
+        # print("Stati corretti: {} su {}".format(result, len(test)))
+        # var = myhmm.forward_backward(emissions, transProb.values, obsProb.values, startProb.values.flatten())
+        # print(filtering)
+
+        accuracy = (result * 100) / len(test)
+        print("Accuratezza: {}".format(accuracy))
+
+        # return startProb.values.flatten(), transProb.values, obsProb.values
+
+        # viterbi_result = lista stati predetti
+        # result = stati indovinati
+        # giusti = stati reali (groung truth)
+        # len(test) = stati totali da predirre
+        # accuracy = accuratezza sugli stati predetti
+
 
     else:
-        # TIME SLICE
-        if dt == 1:
-            try:
-                # prende il dataset mergiato dal csv
-                mergedDataset = pd.read_csv('dataset_csv/OrdonezA.csv')
-            except:
-                 # se non trova il csv esegue il preprocessing
-                mergedDataset = generate_dataset()[0]
-        else:
-            try:
-                # prende il dataset mergiato dal csv
-                mergedDataset = pd.read_csv('dataset_csv/OrdonezB.csv')
-            except:
-                 # se non trova il csv esegue il preprocessing
-                mergedDataset = generate_dataset()[1]
 
-
-
-    print("eskere")
+        giusti, viterbi_result, accuracy = slice_prob(dt, days)
 
 
 
 
+    return viterbi_result, giusti, accuracy
 
 
-        ##### TODO CREATE TRAIN + TEST #####
-
-
-
-
-    startProb = get_start_prob(train)
-    transProb = get_trans_prob(train, dt)
-    obsProb = get_obs_prob(train, dt)
-
-    # CONVERTO OSSERVAZIONI IN NUMERI
-    evidences = mergedDataset['Evidence'].unique().tolist()
-    emissions = test['Evidence'].values.flatten()
-    for idx, val in enumerate(emissions):
-        emissions[idx] = evidences.index(val)
-
-    # CONVERTO GLI STATI IN NUMERI
-    states = mergedDataset['Activity'].unique().tolist()
-    giusti = test['Activity'].values.flatten()
-    for idx, val in enumerate(giusti):
-        giusti[idx] = states.index(val)
-
-    # VITERBI
-    viterbi_result, b, c = hmm.viterbi(emissions, transProb.values, obsProb.values, startProb.values.flatten())
-
-    # CONTO QUANTI STATI HO INDOVINATO
-    result = 0
-    for ind, val in enumerate(viterbi_result):
-        if val == giusti[ind]:
-            result = result + 1
-
-    print("DATASET: {}".format(dataset))
-    print("Stati effettivi: {}".format(giusti))
-    print("Stati predetti: {}".format(viterbi_result))
-    print("Stati corretti: {} su {}".format(result, len(test)))
-
-    # myhmm = hmm()
-    # myhmm.test_forward()
-    #
-    # print("FILTERING")
-    #
-    # # FILTERING
-    # filtering = myhmm.forward(emissions, transProb.values, obsProb.values, startProb.values.flatten())
-    # asd2, asd = myhmm.viterbi_old(emissions, transProb.values, obsProb.values, startProb.values.flatten())
-
-    # result = 0
-    # for ind, val in enumerate(asd):
-    #     if val == giusti[ind]:
-    #         result = result + 1
-    #
-    # print("Stati predetti: {}".format(viterbi_result))
-    # print("Stati predetti: {}".format(asd))
-    #
-    # print("Stati corretti: {} su {}".format(result, len(test)))
-    # var = myhmm.forward_backward(emissions, transProb.values, obsProb.values, startProb.values.flatten())
-    # print(filtering)
-
-
-
-    accuracy = (result * 100) / len(test)
-    print("Accuratezza: {}".format(accuracy))
-
-    # return startProb.values.flatten(), transProb.values, obsProb.values
-
-
-    # viterbi_result = lista stati predetti
-    # result = stati indovinati
-    # giusti = stati reali (groung truth)
-    # len(test) = stati totali da predirre
-    # accuracy = accuratezza sugli stati predetti
-    return viterbi_result, result, giusti, len(test), accuracy
 
 
 

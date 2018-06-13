@@ -203,7 +203,7 @@ class App(QWidget):
         self.hide_results()
         self.preproc_label.show()
         app.processEvents()
-        main()
+        generate_dataset()
         self.preproc_label.hide()
 
 
@@ -211,7 +211,7 @@ class App(QWidget):
 
 
 
-    def on_button(self, n):
+    def on_button(self, dt):
 
         # controllo se è il primo avvio
         first_start = True
@@ -226,14 +226,14 @@ class App(QWidget):
         # se non ho selezionato metto di default 1
         if (self.method==0):
             self.method=1
-        elif(self.method==2): # method 2 = Time Slice
-            # avviare preprocessing Dataset
-            # self.preproc_label.setText("Starting")
-            self.start_preprocessing()
+        # elif(self.method==2): # method 2 = Time Slice
+        #     # avviare preprocessing Dataset
+        #     # self.preproc_label.setText("Starting")
+        #     self.start_preprocessing()
 
 
 
-        list_pred, pred, list_truth, n_states, accuracy = calculate(n,self.days, self.method)
+        list_pred, list_truth, accuracy = calculate(dt,self.days, self.method)
 
         # list_truth = np.array2string(list_truth).replace('\n', '')
         # list_pred =  np.array2string(list_pred).replace('\n', '')
