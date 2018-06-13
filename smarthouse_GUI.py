@@ -156,6 +156,8 @@ class App(QWidget):
         self.results_groupbox.setFont(font)
         self.results_groupbox.setObjectName("results_groupbox")
 
+        self.results_groupbox.hide()
+
         # Samples
         self.sample_textbrowser = QtWidgets.QTextBrowser(self.results_groupbox)
         self.sample_textbrowser.setGeometry(QtCore.QRect(20, 61, 201, 171))
@@ -198,11 +200,6 @@ class App(QWidget):
 
 
     def set_days(self, i):
-        # print("Items in the list are :")
-        # for count in range(self.cb.count()):
-        #     print(self.cb.itemText(count))
-        # print("Current index", i, "selection changed ", self.cb.currentText())
-
         self.days = i+1
 
 
@@ -210,20 +207,7 @@ class App(QWidget):
         self.method = i+1
 
     def show_lists(self, list_truth, list_pred):
-        # datasets = ['A'] if self.a_radio.isChecked() else ['B']
-        # to_date = None
-        # if self.split_radio.isChecked():
-        #     start_A = smarthouse.date_to_timestamp("2011-11-28 00:00:00")
-        #     start_B = smarthouse.date_to_timestamp("2012-11-11 00:00:00")
-        #     days = self.days_spin.value()
-        #     to_date = {'A': start_A + 86400 * (14 - days), 'B': start_B + 86400 * (21 - days)}
-        # n_samples = 0 if not self.sampling_radio.isChecked() else self.samples_spin.value()
 
-        sample = list_truth
-        predicted = list_pred
-
-        # sample = list(map(lambda v: f'&nbsp;&nbsp;{v}' if v < 10 else str(v), sample))
-        # predicted = list(map(lambda v: f'&nbsp;&nbsp;{v}' if v < 10 else str(v), predicted))
 
         # for i in range(len(sample)):
         #     if sample[i] == predicted[i]:
@@ -232,17 +216,11 @@ class App(QWidget):
         #         sample[i] = f"<font face='mono' color='red'>&nbsp;{sample[i]}</font>"
         #         predicted[i] = f"<font face='mono' color='red'>&nbsp;{predicted[i]}</font>"
 
-        # sample_rows = [" ".join(sample[x: x + 5]) for x in range(0, len(sample), 5)]
-        # sample_text = "<br>&nbsp;&nbsp;&nbsp;&nbsp;".join(sample_rows)
-        #
-        # predicted_rows = [" ".join(predicted[x: x + 5]) for x in range(0, len(predicted), 5)]
-        # predicted_text = "<br>&nbsp;&nbsp;&nbsp;&nbsp;".join(predicted_rows)
-        #
-        # self.sample_textbrowser.setText('&nbsp;&nbsp;&nbsp;&nbsp;' + sample_text)
-        # self.predicted_textbrowser.setText('&nbsp;&nbsp;&nbsp;&nbsp;' + predicted_text)
+
 
         self.sample_textbrowser.setText(list_truth)
         self.predicted_textbrowser.setText(list_pred)
+
 
 
 
@@ -269,6 +247,7 @@ class App(QWidget):
 
 
         self.show_lists(list_truth, list_pred)
+        self.results_groupbox.show()
 
 
 
