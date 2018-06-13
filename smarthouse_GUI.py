@@ -1,5 +1,5 @@
 # from PyQt5.uic.properties import QtGui
-from PyQt5 import QtGui, QtCore
+from PyQt5 import QtGui, QtCore, QtWidgets
 from PyQt5.QtCore import Qt
 from matplotlib import pyplot
 
@@ -146,6 +146,52 @@ class App(QWidget):
         self.preproc_label.move(320, 400)
         self.preproc_label.hide()
 
+        # Results
+        self.results_groupbox = QtWidgets.QGroupBox(self)
+        self.results_groupbox.setGeometry(QtCore.QRect(10, 330, 460, 291))
+        font = QtGui.QFont()
+        font.setPointSize(16)
+        # font.setBold(True)
+        font.setWeight(75)
+        self.results_groupbox.setFont(font)
+        self.results_groupbox.setObjectName("results_groupbox")
+
+        # Samples
+        self.sample_textbrowser = QtWidgets.QTextBrowser(self.results_groupbox)
+        self.sample_textbrowser.setGeometry(QtCore.QRect(20, 61, 201, 171))
+        self.sample_textbrowser.setObjectName("sample_textbrowser")
+        self.sample_label = QtWidgets.QLabel(self.results_groupbox)
+        self.sample_label.setGeometry(QtCore.QRect(20, 35, 101, 21))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.sample_label.setFont(font)
+        self.sample_label.setObjectName("sample_label")
+        self.sample_label.setText("Sample")
+
+        # Predicted
+        self.predicted_textbrowser = QtWidgets.QTextBrowser(self.results_groupbox)
+        self.predicted_textbrowser.setGeometry(QtCore.QRect(240, 61, 201, 171))
+        self.predicted_textbrowser.setObjectName('predicted_textbrowser')
+        self.predicted_label = QtWidgets.QLabel(self.results_groupbox)
+        self.predicted_label.setGeometry(QtCore.QRect(240, 35, 101, 21))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.predicted_label.setFont(font)
+        self.predicted_label.setObjectName("predicted_label")
+        self.predicted_label.setText("Predicted")
+
+
+        # SCROLLBAR SINCRONIZZATE
+        self.sample_textbrowser.horizontalScrollBar().valueChanged.connect(
+            self.predicted_textbrowser.horizontalScrollBar().setValue)
+        self.sample_textbrowser.verticalScrollBar().valueChanged.connect(
+            self.predicted_textbrowser.verticalScrollBar().setValue)
+        self.predicted_textbrowser.horizontalScrollBar().valueChanged.connect(
+            self.sample_textbrowser.horizontalScrollBar().setValue)
+        self.predicted_textbrowser.verticalScrollBar().valueChanged.connect(
+            self.sample_textbrowser.verticalScrollBar().setValue)
+
+
 
         self.show()
 
@@ -163,28 +209,66 @@ class App(QWidget):
     def set_method(self, i):
         self.method = i+1
 
+    def show_lists(self, list_truth, list_pred):
+        # datasets = ['A'] if self.a_radio.isChecked() else ['B']
+        # to_date = None
+        # if self.split_radio.isChecked():
+        #     start_A = smarthouse.date_to_timestamp("2011-11-28 00:00:00")
+        #     start_B = smarthouse.date_to_timestamp("2012-11-11 00:00:00")
+        #     days = self.days_spin.value()
+        #     to_date = {'A': start_A + 86400 * (14 - days), 'B': start_B + 86400 * (21 - days)}
+        # n_samples = 0 if not self.sampling_radio.isChecked() else self.samples_spin.value()
+
+        sample = list_truth
+        predicted = list_pred
+
+        # sample = list(map(lambda v: f'&nbsp;&nbsp;{v}' if v < 10 else str(v), sample))
+        # predicted = list(map(lambda v: f'&nbsp;&nbsp;{v}' if v < 10 else str(v), predicted))
+
+        # for i in range(len(sample)):
+        #     if sample[i] == predicted[i]:
+        #         sample[i] = predicted[i] = f"<font face='mono' color='green'>&nbsp;{sample[i]}</font>"
+        #     else:
+        #         sample[i] = f"<font face='mono' color='red'>&nbsp;{sample[i]}</font>"
+        #         predicted[i] = f"<font face='mono' color='red'>&nbsp;{predicted[i]}</font>"
+
+        # sample_rows = [" ".join(sample[x: x + 5]) for x in range(0, len(sample), 5)]
+        # sample_text = "<br>&nbsp;&nbsp;&nbsp;&nbsp;".join(sample_rows)
+        #
+        # predicted_rows = [" ".join(predicted[x: x + 5]) for x in range(0, len(predicted), 5)]
+        # predicted_text = "<br>&nbsp;&nbsp;&nbsp;&nbsp;".join(predicted_rows)
+        #
+        # self.sample_textbrowser.setText('&nbsp;&nbsp;&nbsp;&nbsp;' + sample_text)
+        # self.predicted_textbrowser.setText('&nbsp;&nbsp;&nbsp;&nbsp;' + predicted_text)
+
+        self.sample_textbrowser.setText(list_truth)
+        self.predicted_textbrowser.setText(list_pred)
+
 
 
 
     def show_results(self, list_truth, list_pred, accuracy):
-        self.truth_label.show()
-
-        self.truth_states_label.setText(str(list_truth))
-        self.truth_states_label.adjustSize()
-
-        self.pred_label.show()
-
-        self.pred_states_label.setText(str(list_pred))
-        self.pred_states_label.adjustSize()
-
-        self.accuracy_label.show()
-
-        self.accuracy_value_label.setText(str(accuracy) + " %")
-        self.accuracy_value_label.adjustSize()
+        # self.truth_label.show()
+        #
+        # self.truth_states_label.setText(str(list_truth))
+        # self.truth_states_label.adjustSize()
+        #
+        # self.pred_label.show()
+        #
+        # self.pred_states_label.setText(str(list_pred))
+        # self.pred_states_label.adjustSize()
+        #
+        # self.accuracy_label.show()
+        #
+        # self.accuracy_value_label.setText(str(accuracy) + " %")
+        # self.accuracy_value_label.adjustSize()
 
         self.progress.setValue(accuracy)
         qApp.processEvents()
         self.progress.show()
+
+
+        self.show_lists(list_truth, list_pred)
 
 
 
@@ -229,8 +313,16 @@ class App(QWidget):
 
         list_pred, list_truth, accuracy = calculate(dt,self.days, self.method)
 
-        # list_truth = np.array2string(list_truth).replace('\n', '')
-        # list_pred =  np.array2string(list_pred).replace('\n', '')
+        list_truth = np.asarray(list_truth)
+
+        list_truth = np.array2string(list_truth).replace('\n', '')
+        list_pred =  np.array2string(list_pred).replace('\n', '')
+
+
+        # list_truth = np.array2string(list_truth).replace('[', '')
+        # list_pred = np.array2string(list_pred).replace('[', '')
+        # list_truth = np.array2string(list_truth).replace(']', '')
+        # list_pred = np.array2string(list_pred).replace(']', '')
 
 
         self.show_results(list_truth, list_pred, accuracy)
