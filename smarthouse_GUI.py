@@ -313,16 +313,9 @@ class App(QWidget):
 
         list_pred, list_truth, accuracy = calculate(dt,self.days, self.method)
 
-        list_truth = np.asarray(list_truth)
-
-        list_truth = np.array2string(list_truth).replace('\n', '')
-        list_pred =  np.array2string(list_pred).replace('\n', '')
-
-
-        # list_truth = np.array2string(list_truth).replace('[', '')
-        # list_pred = np.array2string(list_pred).replace('[', '')
-        # list_truth = np.array2string(list_truth).replace(']', '')
-        # list_pred = np.array2string(list_pred).replace(']', '')
+        # rimuove '\n' e '[]'
+        list_truth = ' '.join(map(str, list_truth))
+        list_pred = ' '.join(map(str, list_pred))
 
 
         self.show_results(list_truth, list_pred, accuracy)

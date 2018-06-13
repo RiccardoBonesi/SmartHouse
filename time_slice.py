@@ -171,6 +171,9 @@ def slice_prob(dt, days):
 
     accuracy = c/len(viterbi_result) * 100
 
+    # converte la lista in ndarray
+    testset_s = np.asarray(testset_s)
+
     return testset_s, viterbi_result, accuracy
 
 
