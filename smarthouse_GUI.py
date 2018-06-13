@@ -120,10 +120,15 @@ class App(QWidget):
         self.pred_states_label.move(20, 390)
 
 
-        self.accuracy_label = QLabel('Accuracy: ', self)
-        self.accuracy_label.move(500, 230) #20,540
-        self.accuracy_label.setFont(myFont)
+        self.accuracy_label = QLabel('Accuracy', self)
+        self.accuracy_label.move(630, 265) #20,540
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        font.setBold(True)
+        self.accuracy_label.setFont(font)
         self.accuracy_label.hide()
+
+
 
         self.accuracy_value_label = QLabel(self)
         self.accuracy_value_label.move(500, 250) #20, 560
@@ -138,7 +143,7 @@ class App(QWidget):
         palette.setBrush(QPalette.Active, QPalette.Highlight, brush)
 
         self.progress.setPalette(palette) #(20, 600, 150, 150)
-        self.progress.setGeometry(500, 300, 150, 150)  # x, y, width, height
+        self.progress.setGeometry(600, 300, 150, 150)  # x, y, width, height
 
         self.progress.hide()
 
@@ -146,13 +151,15 @@ class App(QWidget):
         self.preproc_label.move(320, 400)
         self.preproc_label.hide()
 
-        # Results
+
+
+        # BOX
         self.results_groupbox = QtWidgets.QGroupBox(self)
-        self.results_groupbox.setGeometry(QtCore.QRect(10, 330, 460, 291))
+        self.results_groupbox.setGeometry(QtCore.QRect(10, 230, 550, 320)) # x, y, width, height
         font = QtGui.QFont()
         font.setPointSize(16)
-        # font.setBold(True)
-        font.setWeight(75)
+        font.setBold(True)
+        font.setWeight(60)
         self.results_groupbox.setFont(font)
         self.results_groupbox.setObjectName("results_groupbox")
 
@@ -160,24 +167,26 @@ class App(QWidget):
 
         # Samples
         self.sample_textbrowser = QtWidgets.QTextBrowser(self.results_groupbox)
-        self.sample_textbrowser.setGeometry(QtCore.QRect(20, 61, 201, 171))
+        self.sample_textbrowser.setGeometry(QtCore.QRect(20, 61, 250, 250)) # x, y, width, height
         self.sample_textbrowser.setObjectName("sample_textbrowser")
         self.sample_label = QtWidgets.QLabel(self.results_groupbox)
         self.sample_label.setGeometry(QtCore.QRect(20, 35, 101, 21))
         font = QtGui.QFont()
         font.setPointSize(10)
+        font.setBold(True)
         self.sample_label.setFont(font)
         self.sample_label.setObjectName("sample_label")
         self.sample_label.setText("Sample")
 
         # Predicted
         self.predicted_textbrowser = QtWidgets.QTextBrowser(self.results_groupbox)
-        self.predicted_textbrowser.setGeometry(QtCore.QRect(240, 61, 201, 171))
+        self.predicted_textbrowser.setGeometry(QtCore.QRect(290, 61, 250, 250)) # x, y, width, height
         self.predicted_textbrowser.setObjectName('predicted_textbrowser')
         self.predicted_label = QtWidgets.QLabel(self.results_groupbox)
-        self.predicted_label.setGeometry(QtCore.QRect(240, 35, 101, 21))
+        self.predicted_label.setGeometry(QtCore.QRect(290, 35, 101, 21))
         font = QtGui.QFont()
         font.setPointSize(10)
+        font.setBold(True)
         self.predicted_label.setFont(font)
         self.predicted_label.setObjectName("predicted_label")
         self.predicted_label.setText("Predicted")
@@ -236,7 +245,7 @@ class App(QWidget):
         # self.pred_states_label.setText(str(list_pred))
         # self.pred_states_label.adjustSize()
         #
-        # self.accuracy_label.show()
+        self.accuracy_label.show()
         #
         # self.accuracy_value_label.setText(str(accuracy) + " %")
         # self.accuracy_value_label.adjustSize()
