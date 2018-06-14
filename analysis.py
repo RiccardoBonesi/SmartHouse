@@ -5,6 +5,7 @@ import numpy as np
 import itertools
 import sklearn.metrics
 import matplotlib.pyplot as plt
+from sklearn.metrics import precision_recall_fscore_support as score
 
 def predict(dataset, days, method):
 
@@ -49,106 +50,75 @@ if __name__ == '__main__':
 
     # prova mia
     print("A - test 2 - no Time Slice")
-    truth_a, predict_a, accuracy_a = predict(1,4,2) # dataset, days, method
 
-    # cambia il tipo dell'array
-    predict_a = predict_a.astype('uint8')
+    for method in [1,2]:
+        for j in [1,2]:
+            if method == 1:
+                if(j==1):
+                    precisionmatrix = np.zeros(9)
+                    recallmatrix = np.zeros(9)
+                    fscorematrix = np.zeros(9)
+                else:
+                    precisionmatrix = np.zeros(10)
+                    recallmatrix = np.zeros(10)
+                    fscorematrix = np.zeros(10)
+            else:
+                if(j==1):
+                    precisionmatrix = np.zeros(10)
+                    recallmatrix = np.zeros(10)
+                    fscorematrix = np.zeros(10)
+                else:
+                    precisionmatrix = np.zeros(11)
+                    recallmatrix = np.zeros(11)
+                    fscorematrix = np.zeros(11)
+            for i in [1,2,3,4,5]:
+                truth_a, predict_a, accuracy_a = predict(j,i,method) # dataset, days, method
+                # cambia il tipo dell'array
+                if method == 1:
+                    if (j == 1):
+                        truth_a = np.append([0, 1, 2, 3, 4, 5, 6, 7, 8], truth_a)
 
+                        predict_a = predict_a.astype('uint8')
+                        predict_a = np.append([0, 1, 2, 3, 4, 5, 6, 7, 8], predict_a)
+                    else:
+                        truth_a = np.append([0, 1, 2, 3, 4, 5, 6, 7, 8,9], truth_a)
 
-    print(sklearn.metrics.classification_report(truth_a, predict_a))
-    conf_mat_a = sklearn.metrics.confusion_matrix(truth_a, predict_a)
+                        predict_a = predict_a.astype('uint8')
+                        predict_a = np.append([0, 1, 2, 3, 4, 5, 6, 7, 8,9], predict_a)
+                else:
+                    if (j == 1):
+                        truth_a = np.append([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], truth_a)
 
-    plt.figure(1)
-    plot_confusion_matrix(
-        conf_mat_a,
-        list(map(str, range(max(truth_a)))),
-        normalize=True
-    )
+                        predict_a = predict_a.astype('uint8')
+                        predict_a = np.append([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], predict_a)
+                    else:
+                        truth_a = np.append([0, 1, 2, 3, 4, 5, 6, 7, 8, 9,10], truth_a)
 
+                        predict_a = predict_a.astype('uint8')
+                        predict_a = np.append([0, 1, 2, 3, 4, 5, 6, 7, 8, 9,10], predict_a)
 
+                precision, recall, fscore, support = score(predict_a, truth_a)
+                precisionmatrix = numpy.vstack([precisionmatrix, precision])
+                recallmatrix = numpy.vstack([recallmatrix, recall])
+                fscorematrix = numpy.vstack([fscorematrix, fscore])
+                conf_mat_a = sklearn.metrics.confusion_matrix(truth_a, predict_a)
+                print(sklearn.metrics.classification_report(truth_a, predict_a))
+                plt.figure(num=None, figsize=(8, 6), dpi=80)
+                plot_confusion_matrix(
+                    conf_mat_a,
+                    list(map(str, range(max(truth_a)))),
+                    normalize=True
+                )
+                plt.savefig('confusionMatrix'+str(method)+str(j)+str(i)+'.png')
+                plt.show()
 
+            precisionmatrix = numpy.delete(precisionmatrix, (0), axis=0)
+            fscorematrix = numpy.delete(fscorematrix, (0), axis=0)
+            recallmatrix = numpy.delete(recallmatrix, (0), axis=0)
 
-
-
-
-    # # A - 3 giorni
-    # print("=== A - 3 giorni ===")
-    # truth_a, predict_a, accuracy_a = predict('A', days=3)   #truth_a e predict_a sono le frequenze
-    # print(sklearn.metrics.classification_report(truth_a, predict_a))
-    # conf_mat_a = sklearn.metrics.confusion_matrix(truth_a, predict_a)
-    #
-    # plt.figure(1)
-    # plot_confusion_matrix(
-    #     conf_mat_a,
-    #     list(map(str, range(max(truth_a)))),
-    #     normalize=True
-    # )
-    #
-    # # B - 4 giorni
-    # print("=== B - 4 giorni ===")
-    # truth_b, predict_b, accuracy_b = predict('B', days=4)
-    # print(sklearn.metrics.classification_report(truth_b, predict_b))
-    # conf_mat_b = sklearn.metrics.confusion_matrix(truth_b, predict_b)
-    #
-    # plt.figure(2)
-    # plot_confusion_matrix(
-    #     conf_mat_b,
-    #     list(map(str, range(max(truth_b)))),
-    #     normalize=True
-    # )
-    #
-    # # A - 3000 samples
-    # print("=== A - 3000 samples ===")
-    # truth_a, predict_a, accuracy_a = predict('A', n_samples=3000)
-    # print(sklearn.metrics.classification_report(truth_a, predict_a))
-    # conf_mat_a = sklearn.metrics.confusion_matrix(truth_a, predict_a)
-    #
-    # plt.figure(3)
-    # plot_confusion_matrix(
-    #     conf_mat_a,
-    #     list(map(str, range(max(truth_a)))),
-    #     normalize=True
-    # )
-    #
-    # # A - 20000 samples
-    # print("=== A - 20000 samples ===")
-    # truth_a, predict_a, accuracy_a = predict('A', n_samples=20000)
-    # print(sklearn.metrics.classification_report(truth_a, predict_a))
-    # conf_mat_a = sklearn.metrics.confusion_matrix(truth_a, predict_a)
-    #
-    # plt.figure(4)
-    # plot_confusion_matrix(
-    #     conf_mat_a,
-    #     list(map(str, range(max(truth_a)))),
-    #     normalize=True
-    # )
-    #
-    # # B - 3000 samples
-    # print("=== B - 3000 samples ===")
-    # truth_b, predict_b, accuracy_b = predict('B', n_samples=3000)
-    # print(sklearn.metrics.classification_report(truth_b, predict_b))
-    # conf_mat_b = sklearn.metrics.confusion_matrix(truth_b, predict_b)
-    #
-    # plt.figure(5)
-    # plot_confusion_matrix(
-    #     conf_mat_b,
-    #     list(map(str, range(max(truth_b)))),
-    #     normalize=True
-    # )
-    #
-    #
-    # # B - 20000 samples
-    # print("=== B - 20000 samples ===")
-    # truth_b, predict_b, accuracy_b = predict('B', n_samples=20000)
-    # print(sklearn.metrics.classification_report(truth_b, predict_b))
-    # conf_mat_b = sklearn.metrics.confusion_matrix(truth_b, predict_b)
-    #
-    # plt.figure(6)
-    # plot_confusion_matrix(
-    #     conf_mat_b,
-    #     list(map(str, range(max(truth_b)))),
-    #     normalize=True
-    # )
+            meanprec = precisionmatrix.mean(0)
+            meanfscore = fscorematrix.mean(0)
+            meanrecall = recallmatrix.mean(0)
 
 
-    plt.show()
+

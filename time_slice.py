@@ -77,7 +77,7 @@ def slice_prob(dt, days):
     df['date'] = df['timestamp'].apply(lambda x: datetime.fromtimestamp(x, tz=pytz.UTC))
 
     if dt == 1:
-        # DATASET B: TRAIN E TEST SET
+        # DATASET a: TRAIN E TEST SET
         if days == 1:
             trainIndex = range(0, 16401)
             testIndex = range(16402, len(df.index))
@@ -110,9 +110,14 @@ def slice_prob(dt, days):
             train = train.append(df.loc[range(6619, len(df.index)), :])
             testIndex = range(4064, 6618)
             test = df.loc[testIndex, :]
+        elif days == 6:
+            trainIndex = range(0, 16401)
+            testIndex = range(16402, len(df.index))
+            train = df.loc[trainIndex, :]
+            test = df.loc[testIndex, :]
 
     else :
-        # DATASET A: TRAIN E TEST SET
+        # DATASET b: TRAIN E TEST SET
         if days == 1:
             trainIndex = range(0, 6673)
             train = df.loc[trainIndex, :]
