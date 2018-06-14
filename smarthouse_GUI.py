@@ -61,10 +61,10 @@ class App(QWidget):
 
         # COMBO BOX per la selezione dei giorni
         self.cb_days = QComboBox(self)
-        self.cb_days.addItems(["1", "2", "3", "4", "5"])
+        self.cb_days.addItems(["test da 2 giorni (1)", "test da 2 giorni (2)", "test da 2 giorni (3)", "test da 2 giorni (4)", "test da 2 giorni (5)","test da 3 giorni (1)","test da 3 giorni (2)","test da 3 giorni (3)","test da 3 giorni (4)","test da 3 giorni (5)"])
         # self.cb.setCurrentIndex(0)
         self.cb_days.currentIndexChanged.connect(self.set_days)
-        self.cb_days.setGeometry(230,100,60,30) # x, y, width, height
+        self.cb_days.setGeometry(230,100,160,30) # x, y, width, height
 
 
 

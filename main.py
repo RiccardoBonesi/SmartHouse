@@ -38,6 +38,34 @@ def create_set_A(mergedDataset, days):
         train = train.append(mergedDataset.loc[range(159, len(mergedDataset.index)), :])
         testIndex = range(106, 158)
         test = mergedDataset.loc[testIndex, :]
+    elif days == 6:
+        trainIndex = range(0, 339)
+        testIndex = range(340, len(mergedDataset.index))
+        train = mergedDataset.loc[trainIndex, :]
+        test = mergedDataset.loc[testIndex, :]
+    elif days == 7:
+        trainIndex = range(106, len(mergedDataset.index))
+        testIndex = range(0, 105)
+        train = mergedDataset.loc[trainIndex, :]
+        test = mergedDataset.loc[testIndex, :]
+    elif days == 8:
+        trainIndex = range(0, 205)
+        train = mergedDataset.loc[trainIndex, :]
+        train = train.append(mergedDataset.loc[range(319,len(mergedDataset.index)),:])
+        testIndex = range(206, 318)
+        test = mergedDataset.loc[testIndex, :]
+    elif days == 9:
+        trainIndex = range(0, 278)
+        train = mergedDataset.loc[trainIndex, :]
+        train = train.append(mergedDataset.loc[range(367, len(mergedDataset.index)), :])
+        testIndex = range(279, 366)
+        test = mergedDataset.loc[testIndex, :]
+    elif days == 10:
+        trainIndex = range(0, 67)
+        train = mergedDataset.loc[trainIndex, :]
+        train = train.append(mergedDataset.loc[range(159, len(mergedDataset.index)), :])
+        testIndex = range(68, 158)
+        test = mergedDataset.loc[testIndex, :]
 
 
 
@@ -74,6 +102,36 @@ def create_set_B(mergedDataset, days):
         train = mergedDataset.loc[trainIndex, :]
         train = train.append(mergedDataset.loc[range(1302, len(mergedDataset.index)), :])
         testIndex = range(1106, 1301)
+        test = mergedDataset.loc[testIndex, :]
+    elif days == 6:
+        trainIndex = range(0, 491)
+        train = mergedDataset.loc[trainIndex, :]
+        train = train.append(mergedDataset.loc[range(808, len(mergedDataset.index)), :])
+        testIndex = range(492, 807)
+        test = mergedDataset.loc[testIndex, :]
+    elif days == 7:
+        trainIndex = range(0, 1706)
+        train = mergedDataset.loc[trainIndex, :]
+        train = train.append(mergedDataset.loc[range(2079, len(mergedDataset.index)), :])
+        testIndex = range(1707, 2078)
+        test = mergedDataset.loc[testIndex, :]
+    elif days == 8:
+        trainIndex = range(0, 15)
+        train = mergedDataset.loc[trainIndex, :]
+        train = train.append(mergedDataset.loc[range(389, len(mergedDataset.index)), :])
+        testIndex = range(16, 388)
+        test = mergedDataset.loc[testIndex, :]
+    elif days == 9:
+        trainIndex = range(0, 1598)
+        train = mergedDataset.loc[trainIndex, :]
+        train = train.append(mergedDataset.loc[range(1963, len(mergedDataset.index)), :])
+        testIndex = range(1599, 1962)
+        test = mergedDataset.loc[testIndex, :]
+    elif days == 10:
+        trainIndex = range(0, 1004)
+        train = mergedDataset.loc[trainIndex, :]
+        train = train.append(mergedDataset.loc[range(1302, len(mergedDataset.index)), :])
+        testIndex = range(1005, 1301)
         test = mergedDataset.loc[testIndex, :]
 
 
