@@ -218,18 +218,36 @@ class App(QWidget):
 
     def show_lists(self, list_truth, list_pred):
 
+        list_truth = list(map(lambda v: f'{v}' if v < 10 else str(v), list_truth))
+        list_pred = list(map(lambda v: f'{v}' if v < 10 else str(v), list_pred))
 
-        # for i in range(len(sample)):
-        #     if sample[i] == predicted[i]:
-        #         sample[i] = predicted[i] = f"<font face='mono' color='green'>&nbsp;{sample[i]}</font>"
-        #     else:
-        #         sample[i] = f"<font face='mono' color='red'>&nbsp;{sample[i]}</font>"
-        #         predicted[i] = f"<font face='mono' color='red'>&nbsp;{predicted[i]}</font>"
+        for i in range(len(list_truth)):
+            if list_truth[i] == list_pred[i]:
+                list_truth[i] = list_pred[i] = f"<font face='mono' color='green'>&nbsp;{list_truth[i]}</font>"
+            else:
+                list_truth[i] = f"<font face='mono' color='red'>&nbsp;{list_truth[i]}</font>"
+                list_pred[i] = f"<font face='mono' color='red'>&nbsp;{list_pred[i]}</font>"
 
 
 
-        self.sample_textbrowser.setText(list_truth)
-        self.predicted_textbrowser.setText(list_pred)
+        sample_rows = ["".join(list_truth[x: x + 5]) for x in range(0, len(list_truth), 5)]
+        sample_text = "".join(sample_rows)
+
+        predicted_rows = ["".join(list_pred[x: x + 5]) for x in range(0, len(list_pred), 5)]
+        predicted_text = "".join(predicted_rows)
+
+        # sample_text = ' '.join(map(str, sample_text))
+        # predicted_text = ' '.join(map(str, predicted_text))
+
+
+        self.sample_textbrowser.setText( sample_text)
+        self.predicted_textbrowser.setText( predicted_text)
+
+
+
+
+        # self.sample_textbrowser.setText(list_truth)
+        # self.predicted_textbrowser.setText(list_pred)
 
 
 
@@ -303,8 +321,10 @@ class App(QWidget):
         list_pred, list_truth, accuracy = calculate(dt,self.days, self.method)
 
         # rimuove '\n' e '[]'
-        list_truth = ' '.join(map(str, list_truth))
-        list_pred = ' '.join(map(str, list_pred))
+        # list_truth = ' '.join(map(str, list_truth))
+        # list_pred = ' '.join(map(str, list_pred))
+
+
 
 
         self.show_results(list_truth, list_pred, accuracy)
