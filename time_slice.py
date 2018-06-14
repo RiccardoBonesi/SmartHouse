@@ -165,11 +165,18 @@ def slice_prob(dt, days):
             test = df.loc[testIndex, :]
 
         elif days == 8:
-            trainIndex = range(0, 275)
+            # trainIndex = range(0, 274)
+            # train = df.loc[trainIndex, :]
+            # train = train.append(df.loc[range(9037, len(df.index)), :])
+            # testIndex = range(275, 9036)
+            # test = df.loc[testIndex, :]
+
+            trainIndex = range(0, 4108)
             train = df.loc[trainIndex, :]
-            train = train.append(df.loc[range(9037, len(df.index)), :])
-            testIndex = range(276, 9036)
+            train = train.append(df.loc[range(16165, len(df.index)), :])
+            testIndex = range(4109, 13164)
             test = df.loc[testIndex, :]
+
 
         elif days == 9:
             trainIndex = range(0, 11728)
