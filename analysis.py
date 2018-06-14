@@ -7,24 +7,11 @@ import sklearn.metrics
 import matplotlib.pyplot as plt
 
 def predict(dataset, days, method):
-    # d = None
-    # if days:
-    #     start_A = smarthouse.date_to_timestamp("2011-11-28 00:00:00")
-    #     start_B = smarthouse.date_to_timestamp("2012-11-11 00:00:00")
-    #     d = {
-    #         'A': start_A + 86400*(14 - days),
-    #         'B': start_B + 86400*(21 - days)
-    #     }
-
-    # return smarthouse.main(
-    #     datasets=[dataset],
-    #     train_rate=train_rate,
-    #     to_date=d,
-    #     n_samples=n_samples
-    # )
 
     # truth_a, predict_a, accuracy_a
     return calculate(dataset, days, method)
+
+
 
 
 def plot_confusion_matrix(cm, classes,
@@ -53,7 +40,7 @@ def plot_confusion_matrix(cm, classes,
                  color="white" if cm[i, j] > thresh else "black")
 
     plt.tight_layout()
-    plt.ylabel('True label')
+    plt.ylabel('True')
     plt.xlabel('Predicted label')
 
 
@@ -62,10 +49,10 @@ if __name__ == '__main__':
 
     # prova mia
     print("A - test 2 - no Time Slice")
-    truth_a, predict_a, accuracy_a = predict(1,2,2) # dataset, days, method
+    truth_a, predict_a, accuracy_a = predict(1,4,2) # dataset, days, method
 
-    # truth_a = ' '.join(map(str, truth_a))
-    # predict_a = ' '.join(map(str, predict_a))
+    # cambia il tipo dell'array
+    predict_a = predict_a.astype('uint8')
 
 
     print(sklearn.metrics.classification_report(truth_a, predict_a))
