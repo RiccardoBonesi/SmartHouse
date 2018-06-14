@@ -57,21 +57,22 @@ class App(QWidget):
 
         # choose days
         choose_days_label = QLabel('Choose test: ', self)
-        choose_days_label.move(220, 70)
+        choose_days_label.move(230, 70)
 
         # COMBO BOX per la selezione dei giorni
         self.cb_days = QComboBox(self)
-        self.cb_days.addItems(["test da 2 giorni (1)", "test da 2 giorni (2)", "test da 2 giorni (3)", "test da 2 giorni (4)", "test da 2 giorni (5)","test da 3 giorni (1)","test da 3 giorni (2)","test da 3 giorni (3)","test da 3 giorni (4)","test da 3 giorni (5)"])
+        self.cb_days.addItems(["Test #1", "Test #2", "Test #3", "Test #4", "Test #5","Test #6","Test #7","Test #8",
+                               "Test #9","Test #10"])
         # self.cb.setCurrentIndex(0)
         self.cb_days.currentIndexChanged.connect(self.set_days)
-        self.cb_days.setGeometry(230,100,160,30) # x, y, width, height
+        self.cb_days.setGeometry(230,100,140,30) # x, y, width, height
 
 
 
 
         # choose method
         choose_method_label = QLabel('Choose method: ', self)
-        choose_method_label.move(450, 70)
+        choose_method_label.move(440, 70)
 
         # COMBO BOX per la selezione del metodo
         self.cb_method = QComboBox(self)
