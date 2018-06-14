@@ -13,6 +13,20 @@ def predict(dataset, days, method):
     return calculate(dataset, days, method)
 
 
+def bmatrix(a):
+    """Returns a LaTeX bmatrix
+
+    :a: numpy array
+    :returns: LaTeX bmatrix as a string
+    """
+    if len(a.shape) > 2:
+        raise ValueError('bmatrix can at most display two dimensions')
+    lines = str(a).replace('[', '').replace(']', '').splitlines()
+    rv = [r'\begin{bmatrix}']
+    rv += ['  ' + ' & '.join(l.split()) + r'\\' for l in lines]
+    rv +=  [r'\end{bmatrix}']
+    return '\n'.join(rv)
+
 
 
 def plot_confusion_matrix(cm, classes,
@@ -71,7 +85,7 @@ if __name__ == '__main__':
                     precisionmatrix = np.zeros(11)
                     recallmatrix = np.zeros(11)
                     fscorematrix = np.zeros(11)
-            for i in [1,2,3,4,5]:
+            for i in [6,7,8,9,10]:
                 truth_a, predict_a, accuracy_a = predict(j,i,method) # dataset, days, method
                 # cambia il tipo dell'array
                 if method == 1:
@@ -102,15 +116,15 @@ if __name__ == '__main__':
                 recallmatrix = numpy.vstack([recallmatrix, recall])
                 fscorematrix = numpy.vstack([fscorematrix, fscore])
                 conf_mat_a = sklearn.metrics.confusion_matrix(truth_a, predict_a)
-                print(sklearn.metrics.classification_report(truth_a, predict_a))
-                plt.figure(num=None, figsize=(8, 6), dpi=80)
-                plot_confusion_matrix(
-                    conf_mat_a,
-                    list(map(str, range(max(truth_a)))),
-                    normalize=True
-                )
-                plt.savefig('confusionMatrix'+str(method)+str(j)+str(i)+'.png')
-                plt.show()
+                # print(sklearn.metrics.classification_report(truth_a, predict_a))
+                # plt.figure(num=None, figsize=(8, 6), dpi=80)
+                # plot_confusion_matrix(
+                #     conf_mat_a,
+                #     list(map(str, range(max(truth_a)))),
+                #     normalize=True
+                # )
+                # plt.savefig('confusionMatrix'+str(method)+str(j)+str(i)+'.png')
+                # plt.show()
 
             precisionmatrix = numpy.delete(precisionmatrix, (0), axis=0)
             fscorematrix = numpy.delete(fscorematrix, (0), axis=0)
@@ -119,6 +133,12 @@ if __name__ == '__main__':
             meanprec = precisionmatrix.mean(0)
             meanfscore = fscorematrix.mean(0)
             meanrecall = recallmatrix.mean(0)
+            print("meanprec dataset "+str(j)+" method "+str(method))
+            print(bmatrix(meanprec) + '\n')
+            print("meanfscore dataset " + str(j) + " method " + str(method))
+            print(bmatrix(meanfscore) + '\n')
+            print("meanrecall dataset " + str(j) + " method " + str(method))
+            print(bmatrix(meanrecall) + '\n')
 
 
 
