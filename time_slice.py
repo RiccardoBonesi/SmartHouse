@@ -77,7 +77,7 @@ def slice_prob(dt, days):
     df['date'] = df['timestamp'].apply(lambda x: datetime.fromtimestamp(x, tz=pytz.UTC))
 
     if dt == 1:
-        # DATASET B: TRAIN E TEST SET
+        # DATASET A: TRAIN E TEST SET
         if days == 1:
             trainIndex = range(0, 16401)
             testIndex = range(16402, len(df.index))
@@ -112,7 +112,8 @@ def slice_prob(dt, days):
             test = df.loc[testIndex, :]
 
     else :
-        # DATASET A: TRAIN E TEST SET
+        # DATASET B: TRAIN E TEST SET
+        # test da 3 giorni
         if days == 1:
             trainIndex = range(0, 6673)
             train = df.loc[trainIndex, :]
@@ -146,6 +147,42 @@ def slice_prob(dt, days):
             train = df.loc[trainIndex, :]
             train = train.append(df.loc[range(15765, len(df.index)), :])
             testIndex = range(13165, 15764)
+            test = df.loc[testIndex, :]
+
+        # test da 7 giorni
+        if days == 6:
+            trainIndex = range(0, 6671)
+            train = df.loc[trainIndex, :]
+            train = train.append(df.loc[range(15966, len(df.index)), :])
+            testIndex = range(6672, 15965)
+            test = df.loc[testIndex, :]
+
+        elif days == 7:
+            trainIndex = range(0, 15764)
+            train = df.loc[trainIndex, :]
+            train = train.append(df.loc[range(23565, len(df.index)), :])
+            testIndex = range(15765, 23564)
+            test = df.loc[testIndex, :]
+
+        elif days == 8:
+            trainIndex = range(0, 275)
+            train = df.loc[trainIndex, :]
+            train = train.append(df.loc[range(9037, len(df.index)), :])
+            testIndex = range(276, 9036)
+            test = df.loc[testIndex, :]
+
+        elif days == 9:
+            trainIndex = range(0, 11728)
+            train = df.loc[trainIndex, :]
+            train = train.append(df.loc[range(21092, len(df.index)), :])
+            testIndex = range(11729, 21091)
+            test = df.loc[testIndex, :]
+
+        elif days == 10:
+            trainIndex = range(0, 13164)
+            train = df.loc[trainIndex, :]
+            train = train.append(df.loc[range(22273, len(df.index)), :])
+            testIndex = range(13165, 22272)
             test = df.loc[testIndex, :]
 
 

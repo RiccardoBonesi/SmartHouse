@@ -212,7 +212,7 @@ def calculate(dt, days, method):
 if __name__ == '__main__':
     # 1=dataset A, 2=dataset B
     # datset, days, method(1=no Time Slice)
-    calculate(2, 2, 1)
+    calculate(2, 2, 2)
 
 
 
