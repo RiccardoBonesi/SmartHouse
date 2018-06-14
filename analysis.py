@@ -85,7 +85,7 @@ if __name__ == '__main__':
                     precisionmatrix = np.zeros(11)
                     recallmatrix = np.zeros(11)
                     fscorematrix = np.zeros(11)
-            for i in [1,2,3,4,5]:
+            for i in [6,7,8,9,10]:
                 truth_a, predict_a, accuracy_a = predict(j,i,method) # dataset, days, method
                 # cambia il tipo dell'array
                 if method == 1:
