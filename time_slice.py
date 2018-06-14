@@ -111,6 +111,50 @@ def slice_prob(dt, days):
             testIndex = range(4064, 6618)
             test = df.loc[testIndex, :]
 
+        # test da 3 giorni
+        if days == 6:
+            trainIndex = range(0, 15051)
+            train = df.loc[trainIndex, :]
+            train = train.append(df.loc[range(17899, len(df.index)), :])
+            testIndex = range(15052, 17898)
+            test = df.loc[testIndex, :]
+
+        elif days == 7:
+            trainIndex = range(4065, len(df.index))
+            testIndex = range(0, 4064)
+            train = df.loc[trainIndex, :]
+            test = df.loc[testIndex, :]
+
+        elif days == 8:
+            trainIndex = range(0, 9660)
+            train = df.loc[trainIndex, :]
+            train = train.append(df.loc[range(13678, len(df.index)), :])
+            testIndex = range(9661, 13677)
+            test = df.loc[testIndex, :]
+
+        elif days == 9:
+            trainIndex = range(0, 12297)
+            train = df.loc[trainIndex, :]
+            train = train.append(df.loc[range(16403, len(df.index)), :])
+            testIndex = range(12298, 16402)
+            test = df.loc[testIndex, :]
+
+        elif days == 10:
+            trainIndex = range(0, 2662)
+            train = df.loc[trainIndex, :]
+            train = train.append(df.loc[range(6856, len(df.index)), :])
+            testIndex = range(2663, 6855)
+            test = df.loc[testIndex, :]
+
+
+
+
+
+
+
+
+
+
     else :
         # DATASET B: TRAIN E TEST SET
         # test da 3 giorni
