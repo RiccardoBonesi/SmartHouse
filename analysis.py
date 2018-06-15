@@ -1,6 +1,4 @@
-# import smarthouse
 from main import *
-import time_slice
 import numpy as np
 import itertools
 import sklearn.metrics

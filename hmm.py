@@ -66,9 +66,7 @@ class hmm(object):
     #     forward_prob = self.forward(oss, T, O, p)
     #     print(forward_prob)
 
-    import numpy as np
 
-    #
     # def forward(self,obs, A, B, pi):
     #     # obs = observation list, A = Transition probs, B = Emission Probs, pi = initial distribution
     #     fwd = [{}]

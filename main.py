@@ -1,12 +1,8 @@
 from datset_utils import *
 from probability_calc import *
-from hmm import *
-from preprocessing import *
 from time_slice import *
 
 
-# NOTA: per debuggare questo file senza usare la GUI
-# decommentare il  if __name__ == '__main__': sotto il metodo calculate
 
 # CREO TRAIN E TEST SET PER DATASET A
 def create_set_A(mergedDataset, days):

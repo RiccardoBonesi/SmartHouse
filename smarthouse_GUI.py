@@ -1,25 +1,16 @@
-# from PyQt5.uic.properties import QtGui
 from PyQt5 import QtGui, QtCore, QtWidgets
-from PyQt5.QtCore import Qt
-from matplotlib import pyplot
 
 from main import *
 from preprocessing import *
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton
 
-from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
- # from PyQt5.QtCore import *
-# from epics import PV
+
 
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QBrush, QColor, QPalette
 from PyQt5.QtWidgets import QApplication, qApp
 from qroundprogressbar import QRoundProgressBar
-
-
-
 
 
 
@@ -68,8 +59,6 @@ class App(QWidget):
         self.cb_days.setGeometry(230,100,140,30) # x, y, width, height
 
 
-
-
         # choose method
         choose_method_label = QLabel('Choose method: ', self)
         choose_method_label.move(440, 70)
@@ -80,12 +69,6 @@ class App(QWidget):
         # self.cb.setCurrentIndex(0)
         self.cb_method.currentIndexChanged.connect(self.set_method)
         self.cb_method.setGeometry(440, 100, 120, 30)  # x, y, width, height
-
-
-
-
-
-
 
         choose_dataset_label = QLabel('Choose a Dataset:', self)
         choose_dataset_label.move(340, 140)
@@ -107,18 +90,10 @@ class App(QWidget):
         self.truth_label.setFont(myFont)
         self.truth_label.hide()
 
-        self.truth_states_label = QLabel(self)
-        self.truth_states_label.move(20, 250)
-        # self.truth_states_label.setGeometry(20, 250, 100, 100)  # x, y, width, height
-        # self.truth_states_label.adjustSize()
-
         self.pred_label = QLabel('Predicted: ', self)
         self.pred_label.move(20,370)
         self.pred_label.setFont(myFont)
         self.pred_label.hide()
-
-        self.pred_states_label = QLabel(self)
-        self.pred_states_label.move(20, 390)
 
 
         self.accuracy_label = QLabel('Accuracy', self)
@@ -128,7 +103,6 @@ class App(QWidget):
         font.setBold(True)
         self.accuracy_label.setFont(font)
         self.accuracy_label.hide()
-
 
 
         self.accuracy_value_label = QLabel(self)
@@ -151,7 +125,6 @@ class App(QWidget):
         self.preproc_label = QLabel('Dataset preprocessing...', self)
         self.preproc_label.move(320, 400)
         self.preproc_label.hide()
-
 
 
         # BOX
@@ -236,9 +209,6 @@ class App(QWidget):
         predicted_rows = ["".join(list_pred[x: x + 5]) for x in range(0, len(list_pred), 5)]
         predicted_text = "".join(predicted_rows)
 
-        # sample_text = ' '.join(map(str, sample_text))
-        # predicted_text = ' '.join(map(str, predicted_text))
-
 
         self.sample_textbrowser.setText( sample_text)
         self.predicted_textbrowser.setText( predicted_text)
@@ -246,36 +216,15 @@ class App(QWidget):
 
 
 
-        # self.sample_textbrowser.setText(list_truth)
-        # self.predicted_textbrowser.setText(list_pred)
-
-
-
-
-
     def show_results(self, list_truth, list_pred, accuracy):
-        # self.truth_label.show()
-        #
-        # self.truth_states_label.setText(str(list_truth))
-        # self.truth_states_label.adjustSize()
-        #
-        # self.pred_label.show()
-        #
-        # self.pred_states_label.setText(str(list_pred))
-        # self.pred_states_label.adjustSize()
-        #
+        self.show_lists(list_truth, list_pred)
+        self.results_groupbox.show()
+
         self.accuracy_label.show()
-        #
-        # self.accuracy_value_label.setText(str(accuracy) + " %")
-        # self.accuracy_value_label.adjustSize()
 
         self.progress.setValue(accuracy)
         qApp.processEvents()
         self.progress.show()
-
-
-        self.show_lists(list_truth, list_pred)
-        self.results_groupbox.show()
 
 
 
@@ -287,7 +236,6 @@ class App(QWidget):
         self.accuracy_label.hide()
         self.progress.hide()
         self.accuracy_value_label.hide()
-        # self.preproc_label.hide()
 
 
     def start_preprocessing(self):
@@ -296,7 +244,6 @@ class App(QWidget):
         app.processEvents()
         generate_dataset()
         self.preproc_label.hide()
-
 
 
 
@@ -319,12 +266,6 @@ class App(QWidget):
             self.method=1
 
         list_pred, list_truth, accuracy = calculate(dt,self.days, self.method)
-
-        # rimuove '\n' e '[]'
-        # list_truth = ' '.join(map(str, list_truth))
-        # list_pred = ' '.join(map(str, list_pred))
-
-
 
 
         self.show_results(list_truth, list_pred, accuracy)
